@@ -40,15 +40,24 @@ if (form && statusEl && submitButton) {
     const formData = new FormData(form);
     const payload = Object.fromEntries(formData.entries());
     payload.consent = formData.get("consent") === "on";
+    const endpoint = form.getAttribute("action") || "";
+
+    if (!endpoint || endpoint.includes("YOUR_FORM_ID")) {
+      setStatus("Form is not configured yet. Add your Formspree form ID.", "error");
+      return;
+    }
 
     submitButton.disabled = true;
     submitButton.textContent = "Submitting...";
     setStatus("Sending your application...", "");
 
     try {
-      const response = await fetch("/api/contact", {
+      const response = await fetch(endpoint, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
         body: JSON.stringify(payload),
       });
 

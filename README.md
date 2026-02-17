@@ -4,7 +4,7 @@ Static one-page site for Kingdom Health with:
 - polished marketing page design
 - mobile-responsive layout
 - animated section reveals
-- contact/application form wired to a serverless endpoint
+- contact/application form wired directly to Formspree
 
 ## Run locally
 
@@ -16,26 +16,15 @@ python3 -m http.server 8080
 
 Open `http://localhost:8080`.
 
-### Full form flow (frontend + `/api/contact`)
-Use Vercel dev so the serverless API runs locally:
+## Form setup (no backend)
 
-```bash
-cd /Users/jrbussard/repos/kristyfitness
-cp .env.example .env.local
-# Fill values in .env.local
-vercel dev
-```
+This project uses [Formspree](https://formspree.io/html/) so there is no serverless
+email code to host.
 
-Open `http://localhost:3000`.
-
-## Email setup
-
-The form posts to `/api/contact` and sends via [Resend](https://resend.com/).
-
-Required env vars:
-- `RESEND_API_KEY`
-- `CONTACT_FROM_EMAIL` (must use a verified domain/sender in Resend)
-- `CONTACT_TO_EMAIL` (your mom's inbox)
+1. Create a Formspree form.
+2. Copy your endpoint (looks like `https://formspree.io/f/abcxyzpd`).
+3. Replace the placeholder action in `/Users/jrbussard/repos/kristyfitness/index.html`:
+   - `action="https://formspree.io/f/YOUR_FORM_ID"`
 
 ## Image credits
 

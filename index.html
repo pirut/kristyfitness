@@ -190,15 +190,22 @@
           <div class="field-grid">
             <label>
               Full Name
-              <input type="text" name="name" autocomplete="name" required />
+              <input
+                type="text"
+                name="name"
+                autocomplete="name"
+                minlength="2"
+                maxlength="80"
+                required
+              />
             </label>
             <label>
               Email
-              <input type="email" name="email" autocomplete="email" required />
+              <input type="email" name="email" autocomplete="email" maxlength="120" required />
             </label>
             <label>
               Phone
-              <input type="tel" name="phone" autocomplete="tel" />
+              <input type="tel" name="phone" autocomplete="tel" inputmode="tel" maxlength="24" />
             </label>
             <label>
               Preferred Contact
@@ -213,15 +220,22 @@
 
           <label>
             What are you hoping God restores in this season?
-            <textarea name="goals" rows="4" required></textarea>
+            <textarea name="goals" rows="4" minlength="24" maxlength="1200" required></textarea>
           </label>
 
           <label>
             Prayer requests or notes (optional)
-            <textarea name="prayerRequests" rows="4"></textarea>
+            <textarea name="prayerRequests" rows="4" maxlength="1200"></textarea>
           </label>
 
-          <input type="text" name="company" class="hp-field" tabindex="-1" autocomplete="off" />
+          <input
+            type="text"
+            name="company"
+            class="hp-field"
+            tabindex="-1"
+            autocomplete="off"
+            aria-hidden="true"
+          />
 
           <label class="consent">
             <input type="checkbox" name="consent" required />

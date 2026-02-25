@@ -29,6 +29,20 @@ const PHONE_PATTERN = /^[0-9()+\-\s.]{7,24}$/;
 const URL_PATTERN = /(https?:\/\/|www\.|[a-z0-9-]+\.(com|net|org|io|co|ai|info|biz|me|us|uk|ca|au)\b)/i;
 const REPEATED_CHAR_PATTERN = /(.)\1{5,}/;
 const MIN_SECONDS_TO_SUBMIT = 4;
+const ATTRIBUTION_STORAGE_KEY = "kh_landing_attribution_v1";
+const AI_REFERRER_PATTERNS = [
+  "chatgpt",
+  "openai",
+  "perplexity",
+  "claude",
+  "anthropic",
+  "gemini",
+  "copilot",
+  "bing.com/chat",
+  "you.com",
+  "phind",
+  "mistral",
+];
 
 const setStatus = (message, type) => {
   statusEl.textContent = message;
@@ -46,11 +60,120 @@ const looksLikeSpam = (value) => {
   return Boolean(normalized) && (URL_PATTERN.test(normalized) || REPEATED_CHAR_PATTERN.test(normalized));
 };
 
+const parseHost = (url) => {
+  try {
+    return new URL(url).hostname.toLowerCase().replace(/^www\./, "");
+  } catch {
+    return "";
+  }
+};
+
+const safeReadStoredAttribution = () => {
+  try {
+    const raw = localStorage.getItem(ATTRIBUTION_STORAGE_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    if (!parsed || typeof parsed !== "object") return null;
+    return parsed;
+  } catch {
+    return null;
+  }
+};
+
+const safeStoreAttribution = (attribution) => {
+  try {
+    localStorage.setItem(ATTRIBUTION_STORAGE_KEY, JSON.stringify(attribution));
+  } catch {
+    // Ignore storage failures in private browsing or restricted contexts.
+  }
+};
+
+const detectLandingAttribution = () => {
+  const query = new URLSearchParams(window.location.search);
+  const utmSource = normalizeWhitespace(query.get("utm_source") || "").toLowerCase();
+  const utmMedium = normalizeWhitespace(query.get("utm_medium") || "").toLowerCase();
+  const utmCampaign = normalizeWhitespace(query.get("utm_campaign") || "");
+  const referrerHost = parseHost(document.referrer);
+
+  const source = utmSource || referrerHost || "direct";
+  const medium = utmMedium || (utmSource ? "utm" : referrerHost ? "referral" : "none");
+  const campaign = utmCampaign || "";
+
+  const aiAssisted = AI_REFERRER_PATTERNS.some(
+    (pattern) => source.includes(pattern) || referrerHost.includes(pattern)
+  );
+
+  return {
+    source,
+    medium,
+    campaign,
+    referrer: referrerHost || "",
+    aiAssisted: aiAssisted ? "true" : "false",
+  };
+};
+
+const getLandingAttribution = () => {
+  const current = detectLandingAttribution();
+  const stored = safeReadStoredAttribution();
+
+  if (current.source !== "direct") {
+    safeStoreAttribution(current);
+    return current;
+  }
+
+  return stored || current;
+};
+
+const setHiddenValue = (formEl, fieldName, fieldValue) => {
+  const field = formEl.elements.namedItem(fieldName);
+  if (field && typeof field === "object" && "value" in field) {
+    field.value = fieldValue;
+  }
+};
+
+const applyLandingAttributionToForm = (formEl, attribution) => {
+  setHiddenValue(formEl, "landingSource", attribution.source);
+  setHiddenValue(formEl, "landingMedium", attribution.medium);
+  setHiddenValue(formEl, "landingCampaign", attribution.campaign);
+  setHiddenValue(formEl, "landingReferrer", attribution.referrer);
+  setHiddenValue(formEl, "aiAssisted", attribution.aiAssisted);
+};
+
+const trackAiReferralVisit = (attribution) => {
+  if (attribution.aiAssisted !== "true" || typeof window.va !== "function") {
+    return;
+  }
+
+  try {
+    const flag = sessionStorage.getItem("kh_ai_referral_logged");
+    if (flag === "1") return;
+    window.va("event", {
+      name: "ai_referral_visit",
+      data: {
+        source: attribution.source,
+        medium: attribution.medium,
+        campaign: attribution.campaign || "none",
+      },
+    });
+    sessionStorage.setItem("kh_ai_referral_logged", "1");
+  } catch {
+    // Ignore storage failures.
+  }
+};
+
 const failField = (field, message) => {
   field.setCustomValidity(message);
   field.reportValidity();
   setStatus(message, "error");
 };
+
+const landingAttribution = getLandingAttribution();
+
+if (form) {
+  applyLandingAttributionToForm(form, landingAttribution);
+}
+
+trackAiReferralVisit(landingAttribution);
 
 if (form && statusEl && submitButton) {
   form.addEventListener("submit", async (event) => {
@@ -152,6 +275,8 @@ if (form && statusEl && submitButton) {
       setStatus("Please complete the required fields before submitting.", "error");
       return;
     }
+
+    applyLandingAttributionToForm(form, landingAttribution);
 
     const formData = new FormData(form);
     const payload = Object.fromEntries(formData.entries());

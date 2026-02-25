@@ -4,21 +4,21 @@
   xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
 >
   <url>
-    <loc>https://kingdomhealth.fitness/</loc>
+    <loc>https://www.kingdomhealth.fitness/</loc>
     <lastmod>2026-02-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
-      <image:loc>https://kingdomhealth.fitness/assets/fitness-hero.png</image:loc>
+      <image:loc>https://www.kingdomhealth.fitness/assets/fitness-hero-1024.jpg</image:loc>
       <image:title>Kingdom Health hero image</image:title>
       <image:caption>A Christ-centered health and wellness journey.</image:caption>
     </image:image>
     <image:image>
-      <image:loc>https://kingdomhealth.fitness/assets/holy-bible.jpg</image:loc>
+      <image:loc>https://www.kingdomhealth.fitness/assets/holy-bible-1024.jpg</image:loc>
       <image:title>Biblical wellness imagery</image:title>
     </image:image>
     <image:image>
-      <image:loc>https://kingdomhealth.fitness/assets/healthy-food.jpg</image:loc>
+      <image:loc>https://www.kingdomhealth.fitness/assets/healthy-food-1024.jpg</image:loc>
       <image:title>Whole-food nutrition imagery</image:title>
     </image:image>
   </url>

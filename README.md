@@ -16,6 +16,19 @@ python3 -m http.server 8080
 
 Open `http://localhost:8080`.
 
+## SEO operations
+
+- Weekly SEO check script:
+  ```bash
+  bash scripts/seo_weekly_check.sh https://www.kingdomhealth.fitness
+  ```
+- Manual IndexNow submission:
+  ```bash
+  bash scripts/submit_indexnow.sh https://www.kingdomhealth.fitness/
+  ```
+- Operations checklist:
+  - `/Users/jrbussard/repos/kristyfitness/SEO_OPS.md`
+
 ## Form setup (no backend)
 
 This project uses [Formspree](https://formspree.io/html/) so there is no serverless

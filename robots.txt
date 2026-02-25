@@ -22,5 +22,5 @@ Allow: /
 User-agent: *
 Allow: /
 
-Sitemap: https://kingdomhealth.fitness/sitemap.xml
-Host: kingdomhealth.fitness
+Sitemap: https://www.kingdomhealth.fitness/sitemap.xml
+Host: www.kingdomhealth.fitness

@@ -1,0 +1,22 @@
+name: SEO Weekly Check
+
+on:
+  schedule:
+    - cron: "0 14 * * 1"
+  workflow_dispatch:
+
+jobs:
+  weekly-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run SEO weekly checks
+        run: bash scripts/seo_weekly_check.sh https://www.kingdomhealth.fitness seo-weekly-report.md
+
+      - name: Upload SEO weekly report
+        uses: actions/upload-artifact@v4
+        with:
+          name: seo-weekly-report
+          path: seo-weekly-report.md

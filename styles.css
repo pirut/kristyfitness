@@ -284,7 +284,7 @@ ul {
   border-radius: var(--radius);
   background:
     linear-gradient(to right, rgba(250, 247, 240, 0.9), rgba(241, 236, 225, 0.85)),
-    url("./assets/holy-bible.jpg") center / cover no-repeat;
+    url("./assets/holy-bible-bg.jpg") center / cover no-repeat;
   background-blend-mode: screen;
 }
 

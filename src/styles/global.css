@@ -400,10 +400,6 @@ textarea:focus {
   margin: 0;
 }
 
-.footer-admin-link {
-  justify-self: start;
-}
-
 .credit {
   font-size: 0.84rem;
 }

@@ -1,0 +1,83 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import BlogDocument from "../../components/BlogDocument";
+import { getAllPosts, getPostBySlug } from "../../lib/blog";
+
+export const prerender = true;
+
+export async function getStaticPaths() {
+  const posts = await getAllPosts();
+
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+  }));
+}
+
+const slug = Astro.params.slug;
+
+if (!slug) throw new Error("Missing blog slug");
+
+const post = await getPostBySlug(slug);
+
+if (!post) throw new Error(`Blog post not found for slug "${slug}"`);
+
+const articleTitle = post.seoTitle || post.title;
+const articleDescription = post.seoDescription || post.excerpt;
+const articleImage = post.coverImage || "/assets/holy-bible-1024.jpg";
+---
+
+<BaseLayout
+  title={articleTitle}
+  description={articleDescription}
+  canonicalPath={`/blog/${post.slug}`}
+  image={articleImage}
+  jsonLd={{
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: articleDescription,
+    datePublished: post.publishDate,
+    dateModified: post.updatedDate || post.publishDate,
+    author: {
+      "@type": "Person",
+      name: post.author,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Kingdom Health",
+    },
+    mainEntityOfPage: `https://www.kingdomhealth.fitness/blog/${post.slug}`,
+    image: `https://www.kingdomhealth.fitness${articleImage}`,
+  }}
+>
+  <main class="article-shell">
+    <article class="article-card reveal">
+      <a href="/blog" class="back-link">Back to the journal</a>
+      <header class="article-header">
+        <p class="article-meta">
+          <span>{new Date(post.publishDate).toLocaleDateString("en-US", {
+            month: "long",
+            day: "numeric",
+            year: "numeric",
+          })}</span>
+          <span>{post.author}</span>
+        </p>
+        <h1>{post.title}</h1>
+        <p class="article-excerpt">{post.excerpt}</p>
+        {post.tags?.length ? (
+          <ul class="tag-list" aria-label="Post tags">
+            {post.tags.map((tag) => <li>{tag}</li>)}
+          </ul>
+        ) : null}
+      </header>
+
+      {post.coverImage ? (
+        <figure class="article-cover">
+          <img src={post.coverImage} alt={post.title} loading="eager" decoding="async" />
+        </figure>
+      ) : null}
+
+      <BlogDocument document={post.body} />
+    </article>
+  </main>
+</BaseLayout>

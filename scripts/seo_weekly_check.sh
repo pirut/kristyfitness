@@ -8,6 +8,7 @@ CANONICAL_URL="${BASE_URL%/}/"
 ROBOTS_URL="${BASE_URL%/}/robots.txt"
 SITEMAP_URL="${BASE_URL%/}/sitemap.xml"
 LLMS_URL="${BASE_URL%/}/llms.txt"
+BLOG_URL="${BASE_URL%/}/blog/"
 
 PASS_COUNT=0
 FAIL_COUNT=0
@@ -24,13 +25,15 @@ fail() {
 
 HOME_HEADERS="$(mktemp)"
 HOME_HTML="$(mktemp)"
+BLOG_HEADERS="$(mktemp)"
 ROBOTS_TXT="$(mktemp)"
 SITEMAP_XML="$(mktemp)"
 LLMS_TXT="$(mktemp)"
-trap 'rm -f "$HOME_HEADERS" "$HOME_HTML" "$ROBOTS_TXT" "$SITEMAP_XML" "$LLMS_TXT"' EXIT
+trap 'rm -f "$HOME_HEADERS" "$HOME_HTML" "$BLOG_HEADERS" "$ROBOTS_TXT" "$SITEMAP_XML" "$LLMS_TXT"' EXIT
 
 curl -sS -I -L "$CANONICAL_URL" >"$HOME_HEADERS"
 curl -sS -L "$CANONICAL_URL" >"$HOME_HTML"
+curl -sS -I -L "$BLOG_URL" >"$BLOG_HEADERS"
 curl -sS -L "$ROBOTS_URL" >"$ROBOTS_TXT"
 curl -sS -L "$SITEMAP_URL" >"$SITEMAP_XML"
 curl -sS -L "$LLMS_URL" >"$LLMS_TXT"
@@ -65,6 +68,18 @@ curl -sS -L "$LLMS_URL" >"$LLMS_TXT"
     fail "sitemap.xml canonical homepage URL mismatch."
   fi
 
+  if grep -Eq "^HTTP/2 200|^HTTP/1.1 200" "$BLOG_HEADERS"; then
+    pass "Blog index resolves with HTTP 200."
+  else
+    fail "Blog index did not resolve with HTTP 200."
+  fi
+
+  if grep -Fq "<loc>$BLOG_URL</loc>" "$SITEMAP_XML"; then
+    pass "sitemap.xml contains canonical blog index URL."
+  else
+    fail "sitemap.xml missing canonical blog index URL."
+  fi
+
   if grep -Fq "$CANONICAL_URL" "$LLMS_TXT"; then
     pass "llms.txt references canonical URL."
   else
@@ -83,6 +98,7 @@ curl -sS -L "$LLMS_URL" >"$LLMS_TXT"
   printf "3. In both consoles, review:\n"
   printf "   - Coverage/indexing errors\n"
   printf "   - Query performance for christian health/christain health variants\n"
+  printf "   - Blog impressions and indexing for %s\n" "$BLOG_URL"
   printf "   - Crawl stats and last crawl time\n"
   printf "4. Re-submit sitemap if indexing lag is observed: %s\n" "$SITEMAP_URL"
   printf "\nSummary: %d passed, %d failed.\n" "$PASS_COUNT" "$FAIL_COUNT"

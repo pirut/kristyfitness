@@ -1,0 +1,350 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getAllPosts } from "../lib/blog";
+
+export const prerender = true;
+
+const latestPosts = (await getAllPosts()).slice(0, 3);
+
+const jsonLd = [
+  {
+    "@type": "WebSite",
+    "@id": "https://www.kingdomhealth.fitness/#website",
+    url: "https://www.kingdomhealth.fitness/",
+    name: "Kingdom Health",
+    description:
+      "Kingdom Health is a Christ-centered 90-day wellness journey to restore body, soul, and spirit through biblical stewardship.",
+    inLanguage: "en-US",
+  },
+  {
+    "@type": "Organization",
+    "@id": "https://www.kingdomhealth.fitness/#organization",
+    name: "Kingdom Health",
+    url: "https://www.kingdomhealth.fitness/",
+    logo: {
+      "@type": "ImageObject",
+      url: "https://www.kingdomhealth.fitness/assets/fitness-hero-1024.jpg",
+    },
+  },
+  {
+    "@type": "WebPage",
+    "@id": "https://www.kingdomhealth.fitness/#webpage",
+    url: "https://www.kingdomhealth.fitness/",
+    name: "Christian Health Coaching | Kingdom Health 90-Day Wellness Journey",
+    description:
+      "Kingdom Health is a Christ-centered 90-day wellness journey to restore body, soul, and spirit through biblical stewardship.",
+    inLanguage: "en-US",
+  },
+  {
+    "@type": "Service",
+    "@id": "https://www.kingdomhealth.fitness/#service",
+    serviceType: "Christian health coaching",
+    provider: { "@id": "https://www.kingdomhealth.fitness/#organization" },
+    url: "https://www.kingdomhealth.fitness/",
+    description:
+      "A Christ-centered 90-day wellness journey that integrates whole-food meals, progressive movement, rest, and Scripture-led support.",
+    areaServed: "US",
+  },
+];
+---
+
+<BaseLayout
+  title="Christian Health Coaching | Kingdom Health 90-Day Wellness Journey"
+  description="Kingdom Health is a Christ-centered 90-day wellness journey to restore body, soul, and spirit through biblical stewardship."
+  canonicalPath="/"
+  image="/assets/fitness-hero-1024.jpg"
+  jsonLd={jsonLd}
+>
+  <main>
+    <section class="hero reveal">
+      <div class="hero-copy">
+        <p class="label">KINGDOM HEALTH</p>
+        <h1>A Christ-Centered 90-Day Journey to Restore Body, Soul, and Spirit</h1>
+        <blockquote>
+          <p>
+            "Beloved, I pray that you may prosper in all things and be in health, just as your
+            soul prospers."
+          </p>
+          <cite>3 John 1:2</cite>
+        </blockquote>
+      </div>
+      <figure class="hero-media">
+        <picture>
+          <source
+            srcset="
+              /assets/fitness-hero-512.jpg 512w,
+              /assets/fitness-hero-768.jpg 768w,
+              /assets/fitness-hero-1024.jpg 1024w
+            "
+            sizes="(max-width: 900px) 92vw, 42vw"
+            type="image/jpeg"
+          />
+          <img
+            src="/assets/fitness-hero-768.jpg"
+            srcset="
+              /assets/fitness-hero-512.jpg 512w,
+              /assets/fitness-hero-768.jpg 768w,
+              /assets/fitness-hero-1024.jpg 1024w
+            "
+            sizes="(max-width: 900px) 92vw, 42vw"
+            alt="A couple smiling while eating healthy salads at a kitchen table."
+            loading="eager"
+            fetchpriority="high"
+            decoding="async"
+            width="1024"
+            height="1536"
+          />
+        </picture>
+      </figure>
+    </section>
+
+    <section class="grid split reveal">
+      <article class="panel">
+        <figure class="panel-photo">
+          <img
+            src="/assets/holy-bible-640.jpg"
+            srcset="/assets/holy-bible-640.jpg 640w, /assets/holy-bible-1024.jpg 1024w"
+            sizes="(max-width: 900px) 92vw, 46vw"
+            alt="Open Bible with quiet morning light."
+            loading="lazy"
+            decoding="async"
+            width="1024"
+            height="1536"
+          />
+        </figure>
+        <h2>What Is Kingdom Health?</h2>
+        <p>
+          Kingdom Health is a biblical wellness program created to help believers steward their
+          bodies according to God's design, not modern cultural pressure.
+        </p>
+        <h3>The program includes:</h3>
+        <ul>
+          <li>Simple, repetitive whole-food meals</li>
+          <li>Progressive movement and strengthening</li>
+          <li>Rest and stress reduction</li>
+          <li>Emotional healing guided by Scripture</li>
+          <li>Prayer, inner healing, and deliverance (when needed and desired)</li>
+        </ul>
+        <p class="verse">
+          "Do you not know that your body is a temple of the Holy Spirit?"<br />
+          <span>1 Corinthians 6:19</span>
+        </p>
+      </article>
+      <article class="panel panel-accent">
+        <figure class="panel-photo">
+          <img
+            src="/assets/healthy-food-640.jpg"
+            srcset="/assets/healthy-food-640.jpg 640w, /assets/healthy-food-1024.jpg 1024w"
+            sizes="(max-width: 900px) 92vw, 46vw"
+            alt="Fresh whole-food ingredients prepared on a kitchen table."
+            loading="lazy"
+            decoding="async"
+            width="1024"
+            height="683"
+          />
+        </figure>
+        <h2>Why Simplicity?</h2>
+        <p>The human body was created for rhythm, consistency, and order.</p>
+        <h3>Simple eating and stable routines:</h3>
+        <ul>
+          <li>Support digestion</li>
+          <li>Reduce stress and overwhelm</li>
+          <li>Restore hunger and fullness cues</li>
+          <li>Bring peace to the body</li>
+        </ul>
+        <p class="verse">
+          "Give us this day our daily bread."<br />
+          <span>Matthew 6:11</span>
+        </p>
+      </article>
+    </section>
+
+    <section class="journey reveal">
+      <div class="section-head">
+        <p class="label">The 90-Day Journey</p>
+        <h2>Three Months, One Restored Foundation</h2>
+      </div>
+      <div class="timeline">
+        <article class="month">
+          <p class="month-tag">Month 1</p>
+          <h3>Foundation and Rest</h3>
+          <p>Establish order, simplify meals, restore peace.</p>
+        </article>
+        <article class="month">
+          <p class="month-tag">Month 2</p>
+          <h3>Strength and Renewal</h3>
+          <p>Build strength, gently expand, renew the mind.</p>
+        </article>
+        <article class="month">
+          <p class="month-tag">Month 3</p>
+          <h3>Restoration and Stewardship</h3>
+          <p>Create sustainable habits that honor God.</p>
+        </article>
+      </div>
+      <p class="verse center">
+        "For God is not a God of disorder but of peace."<br />
+        <span>1 Corinthians 14:33</span>
+      </p>
+    </section>
+
+    <section class="grid split reveal">
+      <article class="panel">
+        <h2>Personalized and Scripture-Led</h2>
+        <p>Each participant receives a program tailored to:</p>
+        <ul>
+          <li>Health history</li>
+          <li>Physical capacity</li>
+          <li>Emotional needs</li>
+          <li>Spiritual readiness</li>
+        </ul>
+        <p class="note">No legalism. No pressure. No performance.</p>
+        <p class="verse">
+          "I praise You because I am fearfully and wonderfully made."<br />
+          <span>Psalm 139:14</span>
+        </p>
+      </article>
+      <article class="panel">
+        <h2>Who Is This For?</h2>
+        <ul>
+          <li>Believers seeking biblical health solutions</li>
+          <li>Those weary of symptom-only medical care</li>
+          <li>Christians desiring simplicity and stewardship</li>
+          <li>Anyone wanting to honor God with their body</li>
+        </ul>
+        <p class="verse">
+          "So whether you eat or drink or whatever you do, do it all for the glory of God."<br />
+          <span>1 Corinthians 10:31</span>
+        </p>
+        <div class="program-meta">
+          <p><strong>90-Day Program</strong> | By Application</p>
+          <p>Open to all (faith-centered)</p>
+        </div>
+      </article>
+    </section>
+
+    <section class="journal-strip reveal">
+      <div class="section-head">
+        <p class="label">From The Journal</p>
+        <h2>Teaching that keeps the message active between coaching conversations.</h2>
+        <p>
+          The journal is where Kingdom Health can answer common questions, offer biblical
+          encouragement, and give practical support in a format people can revisit and share.
+        </p>
+      </div>
+      {latestPosts.length ? (
+        <div class="blog-grid">
+          {latestPosts.map((post) => (
+            <article class="blog-card" aria-labelledby={`home-post-${post.slug}`}>
+              {post.coverImage ? (
+                <a href={`/blog/${post.slug}`} class="blog-card-image">
+                  <img src={post.coverImage} alt={post.title} loading="lazy" decoding="async" />
+                </a>
+              ) : null}
+              <div class="blog-card-copy">
+                <p class="blog-card-meta">
+                  <span>{new Date(post.publishDate).toLocaleDateString("en-US", {
+                    month: "long",
+                    day: "numeric",
+                    year: "numeric",
+                  })}</span>
+                  {post.tags?.length ? <span>{post.tags[0]}</span> : null}
+                </p>
+                <h3 id={`home-post-${post.slug}`}>
+                  <a href={`/blog/${post.slug}`}>{post.title}</a>
+                </h3>
+                <p>{post.excerpt}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+      ) : (
+        <div class="empty-state empty-state-inline">
+          <p>The journal is set up and ready. Published articles will appear here as soon as they are added.</p>
+        </div>
+      )}
+      <a href="/blog" class="button">Read the Journal</a>
+    </section>
+
+    <section id="contact" class="contact reveal">
+      <div class="section-head">
+        <p class="label">Ready To Begin?</p>
+        <h2>Apply for the Next 90-Day Journey</h2>
+        <p>
+          Fill this out and we will follow up personally. This form is private and goes directly
+          to the Kingdom Health inbox.
+        </p>
+      </div>
+
+      <form
+        id="contact-form"
+        class="contact-form"
+        action="https://formspree.io/f/meelknyk"
+        method="POST"
+        novalidate
+      >
+        <div class="field-grid">
+          <label>
+            Full Name
+            <input
+              type="text"
+              name="name"
+              autocomplete="name"
+              minlength="2"
+              maxlength="80"
+              required
+            />
+          </label>
+          <label>
+            Email
+            <input type="email" name="email" autocomplete="email" maxlength="120" required />
+          </label>
+          <label>
+            Phone
+            <input type="tel" name="phone" autocomplete="tel" inputmode="tel" maxlength="24" />
+          </label>
+          <label>
+            Preferred Contact
+            <select name="preferredContact" required>
+              <option value="">Select one</option>
+              <option>Email</option>
+              <option>Phone</option>
+              <option>Either</option>
+            </select>
+          </label>
+        </div>
+
+        <label>
+          What are you hoping God restores in this season?
+          <textarea name="goals" rows="4" minlength="24" maxlength="1200" required></textarea>
+        </label>
+
+        <label>
+          Prayer requests or notes (optional)
+          <textarea name="prayerRequests" rows="4" maxlength="1200"></textarea>
+        </label>
+
+        <input
+          type="text"
+          name="company"
+          class="hp-field"
+          tabindex="-1"
+          autocomplete="off"
+          aria-hidden="true"
+        />
+        <input type="hidden" name="landingSource" value="" />
+        <input type="hidden" name="landingMedium" value="" />
+        <input type="hidden" name="landingCampaign" value="" />
+        <input type="hidden" name="landingReferrer" value="" />
+        <input type="hidden" name="aiAssisted" value="false" />
+
+        <label class="consent">
+          <input type="checkbox" name="consent" required />
+          <span>I agree to be contacted about Kingdom Health program options.</span>
+        </label>
+
+        <button type="submit" class="button">Submit Application</button>
+        <p id="form-status" class="form-status" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+  </main>
+</BaseLayout>

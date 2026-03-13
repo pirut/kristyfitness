@@ -257,7 +257,11 @@ const jsonLd = [
             </article>
           ))}
         </div>
-      ) : null}
+      ) : (
+        <div class="empty-state empty-state-inline">
+          <p>The journal is set up and ready. Published articles will appear here as soon as they are added.</p>
+        </div>
+      )}
       <a href="/blog" class="button">Read the Journal</a>
     </section>
 

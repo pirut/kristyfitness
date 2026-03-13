@@ -5,12 +5,12 @@ on:
     branches:
       - main
     paths:
-      - "index.html"
-      - "robots.txt"
-      - "sitemap.xml"
-      - "llms.txt"
-      - "assets/**"
-      - "895f0a5792527e3bbb4635f68d0ab8ed.txt"
+      - "src/**"
+      - "public/**"
+      - "astro.config.mjs"
+      - "keystatic.config.ts"
+      - "package.json"
+      - "package-lock.json"
   workflow_dispatch:
 
 jobs:

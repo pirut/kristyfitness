@@ -1,0 +1,128 @@
+---
+import "../styles/global.css";
+import {
+  DEFAULT_DESCRIPTION,
+  DEFAULT_OG_IMAGE,
+  SITE_NAME,
+  SITE_TAGLINE,
+  SITE_URL,
+} from "../lib/site";
+
+interface Props {
+  title?: string;
+  description?: string;
+  canonicalPath?: string;
+  image?: string;
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+}
+
+const {
+  title = SITE_NAME,
+  description = DEFAULT_DESCRIPTION,
+  canonicalPath = Astro.url.pathname,
+  image = DEFAULT_OG_IMAGE,
+  jsonLd,
+} = Astro.props;
+
+const canonicalUrl = new URL(canonicalPath, SITE_URL).toString();
+const imageUrl = new URL(image, SITE_URL).toString();
+const documentTitle = title === SITE_NAME ? SITE_NAME : `${title} | ${SITE_NAME}`;
+const jsonLdPayload = Array.isArray(jsonLd)
+  ? { "@context": "https://schema.org", "@graph": jsonLd }
+  : jsonLd;
+const applyHref = Astro.url.pathname === "/" ? "#contact" : "/#contact";
+const isProd = import.meta.env.PROD;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{documentTitle}</title>
+    <meta name="description" content={description} />
+    <meta
+      name="keywords"
+      content="christian health, christain health, christian wellness, christian health coaching, biblical health, faith-centered wellness, kingdom health, christian blog"
+    />
+    <meta name="author" content={SITE_NAME} />
+    <meta
+      name="robots"
+      content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    />
+    <meta
+      name="googlebot"
+      content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    />
+    <meta name="theme-color" content="#f6f2ea" />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="alternate" hreflang="en-US" href={canonicalUrl} />
+    <link rel="alternate" hreflang="x-default" href={canonicalUrl} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={documentTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:site_name" content={SITE_NAME} />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:image" content={imageUrl} />
+    <meta property="og:image:alt" content={documentTitle} />
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:title" content={documentTitle} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content={imageUrl} />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='0.9em' font-size='88'%3E%E2%9C%9D%EF%B8%8F%3C/text%3E%3C/svg%3E"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Work+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <script is:inline>
+      (() => {
+        const analyticsWindow = window;
+        analyticsWindow.va =
+          analyticsWindow.va ||
+          function () {
+            analyticsWindow.vaq = analyticsWindow.vaq || [];
+            analyticsWindow.vaq.push(arguments);
+          };
+      })();
+    </script>
+    {isProd ? <script is:inline defer src="/_vercel/insights/script.js"></script> : null}
+    {jsonLdPayload ? (
+      <script
+        is:inline
+        type="application/ld+json"
+        set:html={JSON.stringify(jsonLdPayload)}
+      />
+    ) : null}
+    <script is:inline src="/scripts/site.js" defer></script>
+  </head>
+  <body>
+    <div class="bg-mesh" aria-hidden="true"></div>
+    <div class="grain" aria-hidden="true"></div>
+
+    <header class="topbar reveal">
+      <div class="site-lockup">
+        <p class="eyebrow">Faith-Centered Wellness Coaching</p>
+        <a href="/" class="brand-wordmark">{SITE_NAME}</a>
+      </div>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="/">Home</a>
+        <a href="/blog">Journal</a>
+        <a href={applyHref} class="button button-outline">Apply Now</a>
+      </nav>
+    </header>
+
+    <slot />
+
+    <footer class="footer">
+      <p>{SITE_NAME}</p>
+      <p>{SITE_TAGLINE}</p>
+      <p class="credit">Supporting photography via Unsplash</p>
+    </footer>
+  </body>
+</html>

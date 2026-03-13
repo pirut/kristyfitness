@@ -1,0 +1,67 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getAllPosts, getBlogSettings } from "../../lib/blog";
+
+export const prerender = true;
+
+const [posts, settings] = await Promise.all([getAllPosts(), getBlogSettings()]);
+---
+
+<BaseLayout
+  title="Kingdom Health Journal"
+  description={settings.introText}
+  canonicalPath="/blog"
+  image="/assets/holy-bible-1024.jpg"
+  jsonLd={{
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    name: "Kingdom Health Journal",
+    url: "https://www.kingdomhealth.fitness/blog",
+    description: settings.introText,
+    publisher: {
+      "@type": "Organization",
+      name: "Kingdom Health",
+    },
+  }}
+>
+  <main class="blog-shell">
+    <section class="blog-hero reveal">
+      <p class="label">{settings.introEyebrow}</p>
+      <h1>{settings.introTitle}</h1>
+      <p>{settings.introText}</p>
+    </section>
+
+    {posts.length ? (
+      <section class="blog-grid reveal">
+        {posts.map((post) => (
+          <article class="blog-card" aria-labelledby={`post-${post.slug}`}>
+            {post.coverImage ? (
+              <a href={`/blog/${post.slug}`} class="blog-card-image">
+                <img src={post.coverImage} alt={post.title} loading="lazy" decoding="async" />
+              </a>
+            ) : null}
+            <div class="blog-card-copy">
+              <p class="blog-card-meta">
+                <span>{new Date(post.publishDate).toLocaleDateString("en-US", {
+                  month: "long",
+                  day: "numeric",
+                  year: "numeric",
+                })}</span>
+                {post.tags?.length ? <span>{post.tags.join(" • ")}</span> : null}
+              </p>
+              <h2 id={`post-${post.slug}`}>
+                <a href={`/blog/${post.slug}`}>{post.title}</a>
+              </h2>
+              <p>{post.excerpt}</p>
+              <a href={`/blog/${post.slug}`} class="text-link">Read article</a>
+            </div>
+          </article>
+        ))}
+      </section>
+    ) : (
+      <section class="empty-state reveal">
+        <p>{settings.emptyStateMessage}</p>
+      </section>
+    )}
+  </main>
+</BaseLayout>

@@ -1,23 +1,3 @@
-document.documentElement.classList.add("js");
-
-const revealElements = document.querySelectorAll(".reveal");
-
-const revealObserver = new IntersectionObserver(
-  (entries, observer) => {
-    entries.forEach((entry) => {
-      if (!entry.isIntersecting) return;
-      entry.target.classList.add("is-visible");
-      observer.unobserve(entry.target);
-    });
-  },
-  { threshold: 0.2, rootMargin: "0px 0px -40px 0px" }
-);
-
-revealElements.forEach((element, index) => {
-  element.style.transitionDelay = `${Math.min(index * 90, 360)}ms`;
-  revealObserver.observe(element);
-});
-
 const form = document.querySelector("#contact-form");
 const statusEl = document.querySelector("#form-status");
 const submitButton = form?.querySelector('button[type="submit"]');

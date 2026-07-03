@@ -42,8 +42,10 @@ export default function BlogDocument({ document }: Props) {
             blockquote: ({ children }) => <blockquote>{children}</blockquote>,
             code: ({ children }) => <pre><code>{children}</code></pre>,
             divider: () => <hr />,
-            list: ({ children, type }) =>
-              type === "ordered" ? <ol>{children}</ol> : <ul>{children}</ul>,
+            list: ({ children, type }) => {
+              const items = children.map((child, index) => <li key={index}>{child}</li>);
+              return type === "ordered" ? <ol>{items}</ol> : <ul>{items}</ul>;
+            },
             image: ({ src, alt, title }) => (
               <figure>
                 <img src={src} alt={alt} loading="lazy" decoding="async" />

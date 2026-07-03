@@ -2,6 +2,7 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import BlogDocument from "../../components/BlogDocument";
 import { getAllPosts, getPostBySlug } from "../../lib/blog";
+import { DEFAULT_OG_IMAGE, SITE_NAME, SITE_URL } from "../../lib/site";
 
 export const prerender = true;
 
@@ -23,7 +24,7 @@ if (!post) throw new Error(`Blog post not found for slug "${slug}"`);
 
 const articleTitle = post.seoTitle || post.title;
 const articleDescription = post.seoDescription || post.excerpt;
-const articleImage = post.coverImage || "/assets/holy-bible-1024.jpg";
+const articleImage = post.coverImage || DEFAULT_OG_IMAGE;
 ---
 
 <BaseLayout
@@ -44,40 +45,47 @@ const articleImage = post.coverImage || "/assets/holy-bible-1024.jpg";
     },
     publisher: {
       "@type": "Organization",
-      name: "Kingdom Health",
+      name: SITE_NAME,
     },
-    mainEntityOfPage: `https://www.kingdomhealth.fitness/blog/${post.slug}`,
-    image: `https://www.kingdomhealth.fitness${articleImage}`,
+    mainEntityOfPage: `${SITE_URL}/blog/${post.slug}`,
+    image: `${SITE_URL}${articleImage}`,
   }}
 >
-  <main class="article-shell">
-    <article class="article-card reveal">
-      <a href="/blog" class="back-link">Back to the journal</a>
-      <header class="article-header">
-        <p class="article-meta">
-          <span>{new Date(post.publishDate).toLocaleDateString("en-US", {
-            month: "long",
-            day: "numeric",
-            year: "numeric",
-          })}</span>
-          <span>{post.author}</span>
-        </p>
-        <h1>{post.title}</h1>
-        <p class="article-excerpt">{post.excerpt}</p>
-        {post.tags?.length ? (
-          <ul class="tag-list" aria-label="Post tags">
-            {post.tags.map((tag) => <li>{tag}</li>)}
-          </ul>
+  <main id="main" class="article-shell">
+    <div class="wrap">
+      <article class="article-card">
+        <a href="/blog" class="back-link">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+          Back to the blog
+        </a>
+        <header class="article-header">
+          <p class="article-meta">
+            <span>
+              {new Date(post.publishDate).toLocaleDateString("en-US", {
+                month: "long",
+                day: "numeric",
+                year: "numeric",
+              })}
+            </span>
+            <span>{post.author}</span>
+          </p>
+          <h1>{post.title}</h1>
+          <p class="article-excerpt">{post.excerpt}</p>
+          {post.tags?.length ? (
+            <ul class="tag-list" aria-label="Post tags">
+              {post.tags.map((tag) => <li>{tag}</li>)}
+            </ul>
+          ) : null}
+        </header>
+
+        {post.coverImage ? (
+          <figure class="article-cover">
+            <img src={post.coverImage} alt={post.title} loading="eager" decoding="async" />
+          </figure>
         ) : null}
-      </header>
 
-      {post.coverImage ? (
-        <figure class="article-cover">
-          <img src={post.coverImage} alt={post.title} loading="eager" decoding="async" />
-        </figure>
-      ) : null}
-
-      <BlogDocument document={post.body} />
-    </article>
+        <BlogDocument document={post.body} />
+      </article>
+    </div>
   </main>
 </BaseLayout>

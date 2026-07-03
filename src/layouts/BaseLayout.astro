@@ -3,6 +3,12 @@ import "../styles/global.css";
 import {
   DEFAULT_DESCRIPTION,
   DEFAULT_OG_IMAGE,
+  EMAIL,
+  MISSION,
+  OWNER_NAME,
+  OWNER_TITLE,
+  PHONE_DISPLAY,
+  PHONE_TEL,
   SITE_NAME,
   SITE_TAGLINE,
   SITE_URL,
@@ -26,12 +32,14 @@ const {
 
 const canonicalUrl = new URL(canonicalPath, SITE_URL).toString();
 const imageUrl = new URL(image, SITE_URL).toString();
-const documentTitle = title === SITE_NAME ? SITE_NAME : `${title} | ${SITE_NAME}`;
+const documentTitle = title === SITE_NAME ? `${SITE_NAME} | ${SITE_TAGLINE}` : `${title} | ${SITE_NAME}`;
 const jsonLdPayload = Array.isArray(jsonLd)
   ? { "@context": "https://schema.org", "@graph": jsonLd }
   : jsonLd;
-const applyHref = Astro.url.pathname === "/" ? "#contact" : "/#contact";
+const onHome = Astro.url.pathname === "/";
+const anchor = (hash: string) => (onHome ? `#${hash}` : `/#${hash}`);
 const isProd = import.meta.env.PROD;
+const year = new Date().getFullYear();
 ---
 
 <!doctype html>
@@ -41,23 +49,21 @@ const isProd = import.meta.env.PROD;
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{documentTitle}</title>
     <meta name="description" content={description} />
-    <meta
-      name="keywords"
-      content="christian health, christain health, christian wellness, christian health coaching, biblical health, faith-centered wellness, kingdom health, christian blog"
-    />
     <meta name="author" content={SITE_NAME} />
     <meta
       name="robots"
       content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
     />
-    <meta
-      name="googlebot"
-      content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
-    />
-    <meta name="theme-color" content="#f6f2ea" />
+    <meta name="theme-color" content="#102546" />
     <link rel="canonical" href={canonicalUrl} />
     <link rel="alternate" hreflang="en-US" href={canonicalUrl} />
     <link rel="alternate" hreflang="x-default" href={canonicalUrl} />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title={`${SITE_NAME} Blog`}
+      href={new URL("/rss.xml", SITE_URL).toString()}
+    />
     <meta property="og:type" content="website" />
     <meta property="og:title" content={documentTitle} />
     <meta property="og:description" content={description} />
@@ -72,13 +78,21 @@ const isProd = import.meta.env.PROD;
     <meta property="twitter:image" content={imageUrl} />
     <link
       rel="icon"
-      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='0.9em' font-size='88'%3E%E2%9C%9D%EF%B8%8F%3C/text%3E%3C/svg%3E"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%2345bdd3'/%3E%3Cstop offset='1' stop-color='%230d6d80'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='48' height='48' rx='13' fill='url(%23g)'/%3E%3Cpath d='M24 8.5c5.7 6.9 9 11.9 9 16.3a9 9 0 1 1-18 0c0-4.4 3.3-9.4 9-16.3Z' fill='%23fff'/%3E%3Cpath d='M18.5 27.5c1.8-1.6 3.7-1.6 5.5 0s3.7 1.6 5.5 0' stroke='%2312839a' stroke-width='2.4' stroke-linecap='round' fill='none'/%3E%3C/svg%3E"
     />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Work+Sans:wght@400;500;600&display=swap"
-      rel="stylesheet"
+      rel="preload"
+      href="/fonts/archivo-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/fonts/satisfy-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
     />
     <script is:inline>
       (() => {
@@ -102,27 +116,83 @@ const isProd = import.meta.env.PROD;
     <script is:inline src="/scripts/site.js" defer></script>
   </head>
   <body>
-    <div class="bg-mesh" aria-hidden="true"></div>
-    <div class="grain" aria-hidden="true"></div>
+    <a href="#main" class="skip-link">Skip to content</a>
 
-    <header class="topbar reveal">
-      <div class="site-lockup">
-        <p class="eyebrow">Faith-Centered Wellness Coaching</p>
-        <a href="/" class="brand-wordmark">{SITE_NAME}</a>
+    <header class="topbar">
+      <div class="wrap topbar-inner">
+        <a href="/" class="brand" aria-label={`${SITE_NAME} home`}>
+          <svg class="brand-mark" viewBox="0 0 48 48" aria-hidden="true">
+            <defs>
+              <linearGradient id="brand-grad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#45bdd3"></stop>
+                <stop offset="1" stop-color="#0d6d80"></stop>
+              </linearGradient>
+            </defs>
+            <rect width="48" height="48" rx="13" fill="url(#brand-grad)"></rect>
+            <path
+              d="M24 8.5c5.7 6.9 9 11.9 9 16.3a9 9 0 1 1-18 0c0-4.4 3.3-9.4 9-16.3Z"
+              fill="#fff"
+            ></path>
+            <path
+              d="M18.5 27.5c1.8-1.6 3.7-1.6 5.5 0s3.7 1.6 5.5 0"
+              stroke="#12839a"
+              stroke-width="2.4"
+              stroke-linecap="round"
+              fill="none"
+            ></path>
+          </svg>
+          <span class="brand-text">
+            <span class="brand-name">{SITE_NAME}</span>
+            <span class="brand-tag">{SITE_TAGLINE}</span>
+          </span>
+        </a>
+        <nav class="site-nav" aria-label="Primary">
+          <a href={anchor("services")}>Services</a>
+          <a href={anchor("who")}>Who It's For</a>
+          <a href="/blog">Blog</a>
+          <a href={anchor("contact")} class="button button-primary">Get Started</a>
+        </nav>
       </div>
-      <nav class="site-nav" aria-label="Primary">
-        <a href="/">Home</a>
-        <a href="/blog">Journal</a>
-        <a href={applyHref} class="button button-outline">Apply Now</a>
-      </nav>
     </header>
 
     <slot />
 
     <footer class="footer">
-      <p>{SITE_NAME}</p>
-      <p>{SITE_TAGLINE}</p>
-      <p class="credit">Supporting photography via Unsplash</p>
+      <div class="wrap">
+        <div class="footer-grid">
+          <div>
+            <span class="brand-text">
+              <span class="brand-name">{SITE_NAME}</span>
+              <span class="brand-tag">{SITE_TAGLINE}</span>
+            </span>
+            <p class="footer-mission">{MISSION}</p>
+          </div>
+          <div>
+            <h4>Explore</h4>
+            <ul>
+              <li><a href="/">Home</a></li>
+              <li><a href={anchor("services")}>Services</a></li>
+              <li><a href={anchor("pricing")}>Pricing</a></li>
+              <li><a href="/blog">Blog</a></li>
+              <li><a href={anchor("contact")}>Contact</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Get in Touch</h4>
+            <ul class="footer-credentials">
+              <li><a href={`tel:${PHONE_TEL}`}>{PHONE_DISPLAY}</a></li>
+              <li><a href={`mailto:${EMAIL}`}>{EMAIL}</a></li>
+              <li>{OWNER_NAME}</li>
+              <li>{OWNER_TITLE}</li>
+              <li>NASM Certified &middot; Functional Nutrition Alliance</li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; {year} {SITE_NAME}. All rights reserved.</p>
+          <p>Personalized. Effective. Sustainable.</p>
+        </div>
+      </div>
     </footer>
   </body>
 </html>

@@ -2,15 +2,15 @@
 
 ## Weekly workflow (Google + Bing)
 1. Open Google Search Console domain property:
-   - https://search.google.com/search-console?resource_id=sc-domain:kingdomhealth.fitness
+   - https://search.google.com/search-console?resource_id=sc-domain:kristyfitness.com
 2. Open Bing Webmaster Tools:
    - https://www.bing.com/webmasters/home
 3. Review in both tools:
    - Index coverage/crawl errors
-   - Top queries and impressions for `christian health` and `christain health`
-   - Sitemap fetch status for `https://www.kingdomhealth.fitness/sitemap.xml`
+   - Top queries and impressions for `water training`, `aquatic personal trainer`, and `personal trainer for seniors`
+   - Sitemap fetch status for `https://www.kristyfitness.com/sitemap.xml`
 4. If indexing slows, request indexing for:
-   - https://www.kingdomhealth.fitness/
+   - https://www.kristyfitness.com/
 
 ## Automation in this repo
 - Weekly checks run via GitHub Actions:

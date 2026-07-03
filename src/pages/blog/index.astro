@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { getAllPosts, getBlogSettings } from "../../lib/blog";
+import { SITE_NAME, SITE_URL } from "../../lib/site";
 
 export const prerender = true;
 
@@ -8,60 +9,80 @@ const [posts, settings] = await Promise.all([getAllPosts(), getBlogSettings()]);
 ---
 
 <BaseLayout
-  title="Kingdom Health Journal"
+  title={`${SITE_NAME} Blog`}
   description={settings.introText}
   canonicalPath="/blog"
-  image="/assets/holy-bible-1024.jpg"
   jsonLd={{
     "@context": "https://schema.org",
     "@type": "Blog",
-    name: "Kingdom Health Journal",
-    url: "https://www.kingdomhealth.fitness/blog",
+    name: `${SITE_NAME} Blog`,
+    url: `${SITE_URL}/blog`,
     description: settings.introText,
     publisher: {
       "@type": "Organization",
-      name: "Kingdom Health",
+      name: SITE_NAME,
     },
   }}
 >
-  <main class="blog-shell">
-    <section class="blog-hero reveal">
-      <p class="label">{settings.introEyebrow}</p>
-      <h1>{settings.introTitle}</h1>
-      <p>{settings.introText}</p>
+  <main id="main">
+    <section class="page-hero">
+      <div class="wrap page-hero-inner">
+        <span class="eyebrow-script">{settings.introEyebrow}</span>
+        <h1>{settings.introTitle}</h1>
+        <p>{settings.introText}</p>
+      </div>
+      <div class="wave" aria-hidden="true">
+        <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+          <path
+            fill="rgba(245, 249, 251, 0.35)"
+            d="M0,52 C240,104 480,108 720,72 C960,38 1200,42 1440,84 L1440,120 L0,120 Z"
+          ></path>
+          <path
+            fill="#f5f9fb"
+            d="M0,72 C240,116 480,116 720,86 C960,58 1200,58 1440,94 L1440,120 L0,120 Z"
+          ></path>
+        </svg>
+      </div>
     </section>
 
-    {posts.length ? (
-      <section class="blog-grid reveal">
-        {posts.map((post) => (
-          <article class="blog-card" aria-labelledby={`post-${post.slug}`}>
-            {post.coverImage ? (
-              <a href={`/blog/${post.slug}`} class="blog-card-image">
-                <img src={post.coverImage} alt={post.title} loading="lazy" decoding="async" />
-              </a>
-            ) : null}
-            <div class="blog-card-copy">
-              <p class="blog-card-meta">
-                <span>{new Date(post.publishDate).toLocaleDateString("en-US", {
-                  month: "long",
-                  day: "numeric",
-                  year: "numeric",
-                })}</span>
-                {post.tags?.length ? <span>{post.tags.join(" • ")}</span> : null}
-              </p>
-              <h2 id={`post-${post.slug}`}>
-                <a href={`/blog/${post.slug}`}>{post.title}</a>
-              </h2>
-              <p>{post.excerpt}</p>
-              <a href={`/blog/${post.slug}`} class="text-link">Read article</a>
-            </div>
-          </article>
-        ))}
-      </section>
-    ) : (
-      <section class="empty-state reveal">
-        <p>{settings.emptyStateMessage}</p>
-      </section>
-    )}
+    <div class="wrap blog-shell">
+      {posts.length ? (
+        <section class="blog-grid" style="margin-top: 0;">
+          {posts.map((post) => (
+            <article class="blog-card" aria-labelledby={`post-${post.slug}`}>
+              {post.coverImage ? (
+                <a href={`/blog/${post.slug}`} class="blog-card-image">
+                  <img src={post.coverImage} alt={post.title} loading="lazy" decoding="async" />
+                </a>
+              ) : null}
+              <div class="blog-card-copy">
+                <p class="blog-card-meta">
+                  <span>
+                    {new Date(post.publishDate).toLocaleDateString("en-US", {
+                      month: "long",
+                      day: "numeric",
+                      year: "numeric",
+                    })}
+                  </span>
+                  {post.tags?.length ? <span>{post.tags.join(" • ")}</span> : null}
+                </p>
+                <h2 id={`post-${post.slug}`}>
+                  <a href={`/blog/${post.slug}`}>{post.title}</a>
+                </h2>
+                <p>{post.excerpt}</p>
+                <a href={`/blog/${post.slug}`} class="text-link">
+                  Read article
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                </a>
+              </div>
+            </article>
+          ))}
+        </section>
+      ) : (
+        <section class="empty-state" style="margin-top: 0;">
+          <p>{settings.emptyStateMessage}</p>
+        </section>
+      )}
+    </div>
   </main>
 </BaseLayout>

@@ -1,5 +1,6 @@
 import rss from "@astrojs/rss";
 import { getAllPosts } from "../lib/blog";
+import { SITE_NAME } from "../lib/site";
 
 export const prerender = true;
 
@@ -7,9 +8,9 @@ export async function GET(context) {
   const posts = await getAllPosts();
 
   return rss({
-    title: "Kingdom Health Journal",
+    title: `${SITE_NAME} Blog`,
     description:
-      "Biblical encouragement for health, stewardship, and steady restoration.",
+      "Practical tips and encouragement for moving better, eating well, and staying active at any age.",
     site: context.site,
     items: posts.map((post) => ({
       title: post.title,

@@ -9,7 +9,7 @@ const PHONE_PATTERN = /^[0-9()+\-\s.]{7,24}$/;
 const URL_PATTERN = /(https?:\/\/|www\.|[a-z0-9-]+\.(com|net|org|io|co|ai|info|biz|me|us|uk|ca|au)\b)/i;
 const REPEATED_CHAR_PATTERN = /(.)\1{5,}/;
 const MIN_SECONDS_TO_SUBMIT = 4;
-const ATTRIBUTION_STORAGE_KEY = "kh_landing_attribution_v1";
+const ATTRIBUTION_STORAGE_KEY = "kf_landing_attribution_v1";
 const AI_REFERRER_PATTERNS = [
   "chatgpt",
   "openai",
@@ -125,7 +125,7 @@ const trackAiReferralVisit = (attribution) => {
   }
 
   try {
-    const flag = sessionStorage.getItem("kh_ai_referral_logged");
+    const flag = sessionStorage.getItem("kf_ai_referral_logged");
     if (flag === "1") return;
     window.va("event", {
       name: "ai_referral_visit",
@@ -135,7 +135,7 @@ const trackAiReferralVisit = (attribution) => {
         campaign: attribution.campaign || "none",
       },
     });
-    sessionStorage.setItem("kh_ai_referral_logged", "1");
+    sessionStorage.setItem("kf_ai_referral_logged", "1");
   } catch {
     // Ignore storage failures.
   }
@@ -163,8 +163,8 @@ if (form && statusEl && submitButton) {
     const emailField = form.elements.namedItem("email");
     const phoneField = form.elements.namedItem("phone");
     const preferredContactField = form.elements.namedItem("preferredContact");
+    const interestField = form.elements.namedItem("interest");
     const goalsField = form.elements.namedItem("goals");
-    const prayerRequestsField = form.elements.namedItem("prayerRequests");
     const companyField = form.elements.namedItem("company");
     const consentField = form.elements.namedItem("consent");
 
@@ -173,8 +173,8 @@ if (form && statusEl && submitButton) {
       !emailField ||
       !phoneField ||
       !preferredContactField ||
+      !interestField ||
       !goalsField ||
-      !prayerRequestsField ||
       !companyField ||
       !consentField
     ) {
@@ -187,8 +187,8 @@ if (form && statusEl && submitButton) {
       emailField,
       phoneField,
       preferredContactField,
+      interestField,
       goalsField,
-      prayerRequestsField,
       companyField,
       consentField,
     ].forEach((field) => {
@@ -201,10 +201,9 @@ if (form && statusEl && submitButton) {
     emailField.value = normalizeWhitespace(emailField.value).toLowerCase();
     phoneField.value = normalizeWhitespace(phoneField.value);
     goalsField.value = normalizeWhitespace(goalsField.value);
-    prayerRequestsField.value = normalizeWhitespace(prayerRequestsField.value);
 
     if (companyField.value.trim()) {
-      setStatus("Application received. We will follow up with you soon.", "success");
+      setStatus("Message received. Kristy will follow up with you soon.", "success");
       form.reset();
       return;
     }
@@ -245,11 +244,6 @@ if (form && statusEl && submitButton) {
       return;
     }
 
-    if (prayerRequestsField.value && looksLikeSpam(prayerRequestsField.value)) {
-      failField(prayerRequestsField, "Please remove links or repeated characters.");
-      return;
-    }
-
     if (!form.checkValidity()) {
       form.reportValidity();
       setStatus("Please complete the required fields before submitting.", "error");
@@ -269,8 +263,8 @@ if (form && statusEl && submitButton) {
     }
 
     submitButton.disabled = true;
-    submitButton.textContent = "Submitting...";
-    setStatus("Sending your application...", "");
+    submitButton.textContent = "Sending...";
+    setStatus("Sending your message...", "");
 
     try {
       const response = await fetch(endpoint, {
@@ -289,7 +283,7 @@ if (form && statusEl && submitButton) {
       }
 
       form.reset();
-      setStatus("Application received. We will follow up with you soon.", "success");
+      setStatus("Message received. Kristy will follow up with you soon.", "success");
     } catch (error) {
       setStatus(
         "We could not send your form right now. Please try again in a few minutes.",
@@ -298,7 +292,7 @@ if (form && statusEl && submitButton) {
       console.error("Form submission failed:", error);
     } finally {
       submitButton.disabled = false;
-      submitButton.textContent = "Submit Application";
+      submitButton.textContent = "Send My Message";
     }
   });
 }

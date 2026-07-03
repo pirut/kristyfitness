@@ -11,7 +11,7 @@ export default config({
       },
   ui: {
     brand: {
-      name: "Kingdom Health Journal",
+      name: "Kristy Fitness Blog",
     },
     navigation: {
       Content: ["posts", "---", "blogSettings"],
@@ -119,19 +119,19 @@ export default config({
       schema: {
         introEyebrow: fields.text({
           label: "Intro eyebrow",
-          defaultValue: "The Kingdom Health Journal",
+          defaultValue: "The Kristy Fitness Blog",
           validation: { isRequired: true, length: { min: 4, max: 80 } },
         }),
         introTitle: fields.text({
           label: "Intro title",
-          defaultValue: "Biblical encouragement for health, stewardship, and steady restoration.",
+          defaultValue: "Tips and encouragement for moving better at any age.",
           validation: { isRequired: true, length: { min: 12, max: 120 } },
         }),
         introText: fields.text({
           label: "Intro text",
           multiline: true,
           defaultValue:
-            "This journal gives Kingdom Health a place to teach, encourage, and answer common questions in a slower, more thoughtful format.",
+            "Practical advice from Kristy on water training, nutrition, and staying active — written for real people at every fitness level.",
           validation: { isRequired: true, length: { min: 40, max: 320 } },
         }),
         defaultAuthor: fields.text({

@@ -1,16 +1,23 @@
-# Kingdom Health Website
+# Kristy Fitness Website
 
-Astro site for Kingdom Health with:
-- the original marketing homepage and Formspree contact flow
-- a branded blog at `/blog`
+Astro site for Kristy Fitness ("Join the Fit Life") with:
+- a marketing homepage (water training, nutrition coaching, one-on-one personal training) with a Formspree contact form
+- a blog at `/blog` that Kristy can edit herself
 - Keystatic editor access at `/keystatic`
 - RSS and generated sitemap output
 - GitHub-backed content storage for blog posts
 
+## Editing the blog (for Kristy)
+
+1. Go to `https://www.kristyfitness.com/keystatic` and sign in with GitHub.
+2. Click **Blog posts** → **Create entry**.
+3. Fill in the title, slug, date, and excerpt, write your post, and add photos with the image button.
+4. Leave **Draft** checked while you work; uncheck it when you're ready to publish.
+5. Click **Save** — the site updates automatically a minute or two later.
+
 ## Run locally
 
 ```bash
-cd /Users/jrbussard/repos/kristyfitness
 npm install
 npm run dev
 ```
@@ -34,55 +41,24 @@ You will also need a GitHub app with write access to this repository.
 
 ## Content locations
 
-- Blog posts:
-  - `/Users/jrbussard/repos/kristyfitness/src/content/blog/`
-- Blog settings:
-  - `/Users/jrbussard/repos/kristyfitness/src/content/settings/blog.yaml`
-- Public assets:
-  - `/Users/jrbussard/repos/kristyfitness/public/assets/`
+- Blog posts: `src/content/blog/`
+- Blog settings: `src/content/settings/blog.yaml`
+- Site-wide contact info and copy constants: `src/lib/site.ts`
+- Public assets: `public/assets/`
 
 ## Commands
 
-- Dev server:
-  ```bash
-  npm run dev
-  ```
-- Type and Astro checks:
-  ```bash
-  npm run check
-  ```
-- Production build:
-  ```bash
-  npm run build
-  ```
+- Dev server: `npm run dev`
+- Type and Astro checks: `npm run check`
+- Production build: `npm run build`
 
 ## SEO operations
 
-- Weekly SEO check script:
-  ```bash
-  bash scripts/seo_weekly_check.sh https://www.kingdomhealth.fitness
-  ```
-- Manual IndexNow submission:
-  ```bash
-  bash scripts/submit_indexnow.sh https://www.kingdomhealth.fitness/
-  ```
-- Operations checklist:
-  - `/Users/jrbussard/repos/kristyfitness/SEO_OPS.md`
+- Weekly SEO check script: `bash scripts/seo_weekly_check.sh https://www.kristyfitness.com`
+- Manual IndexNow submission: `bash scripts/submit_indexnow.sh https://www.kristyfitness.com/`
+- Operations checklist: `SEO_OPS.md`
 
 ## Form setup
 
-This project still uses [Formspree](https://formspree.io/html/) for the application form.
-
-1. Create or keep the Formspree form.
-2. Copy the endpoint.
-3. Update the `action` on the homepage form in:
-   - `/Users/jrbussard/repos/kristyfitness/src/pages/index.astro`
-
-## Image credits
-
-Stock photography from Unsplash:
-- [healthy food](https://unsplash.com/photos/flat-lay-photography-of-vegetable-salads-and-eggs-c92c4e306e5f)
-- [Bible photo](https://unsplash.com/photos/book-with-black-cover-on-brown-wooden-table-f1e604a9c3d1)
-
-Hero image is client-provided:
-- `/Users/jrbussard/repos/kristyfitness/public/assets/ChatGPT Image Feb 16, 2026, 06_20_16 PM.png`
+The contact form posts to [Formspree](https://formspree.io/). To change the endpoint,
+update the `action` on the homepage form in `src/pages/index.astro`.

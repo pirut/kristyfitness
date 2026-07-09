@@ -1,0 +1,437 @@
+---
+import AdminLayout from "../../layouts/AdminLayout.astro";
+import { isAuthConfigured, isAuthenticated } from "../../lib/admin/auth";
+import { getPost } from "../../lib/admin/content";
+
+export const prerender = false;
+
+const configured = isAuthConfigured();
+const authed = configured && isAuthenticated(Astro.cookies);
+if (!authed) {
+  return Astro.redirect("/admin", 303);
+}
+
+const slug = Astro.url.searchParams.get("slug")?.trim() || "";
+const isNew = !slug;
+
+let post = null;
+if (!isNew) {
+  post = await getPost(slug).catch(() => null);
+  if (!post) return Astro.redirect("/admin", 303);
+}
+
+const today = new Date().toISOString().slice(0, 10);
+const initial = {
+  slug,
+  isNew,
+  title: post?.frontmatter.title ?? "",
+  publishDate: post?.frontmatter.publishDate ?? today,
+  excerpt: post?.frontmatter.excerpt ?? "",
+  tags: post?.frontmatter.tags?.join(", ") ?? "",
+  coverImage: post?.frontmatter.coverImage ?? "",
+  draft: post?.frontmatter.draft ?? false,
+  body: post?.body ?? "",
+};
+---
+
+<AdminLayout title={isNew ? "New post" : `Edit: ${initial.title}`}>
+  <a slot="nav" href="/admin">All posts</a>
+
+  <h1>{isNew ? "Write a new post" : "Edit your post"}</h1>
+  <p class="sub">
+    {isNew
+      ? "Fill in the pieces below, then publish when you're happy with it."
+      : "Make your changes, then save — the website updates itself."}
+  </p>
+
+  <form id="post-form" class="card" data-initial={JSON.stringify(initial)}>
+    <div class="field">
+      <label for="title">Title</label>
+      <p class="hint">The headline of your post.</p>
+      <input type="text" id="title" maxlength="120" value={initial.title} />
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label for="publishDate">Date</label>
+        <input type="date" id="publishDate" value={initial.publishDate} />
+      </div>
+      <div class="field">
+        <label for="tags">Topics <span class="hint-inline">(optional)</span></label>
+        <input type="text" id="tags" placeholder="Water Training, Nutrition" value={initial.tags} />
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="excerpt">Short description</label>
+      <p class="hint">One or two sentences shown on the blog page. <span id="excerpt-count"></span></p>
+      <textarea id="excerpt" rows="2" maxlength="220">{initial.excerpt}</textarea>
+    </div>
+
+    <div class="field">
+      <label for="cover">Cover photo <span class="hint-inline">(optional)</span></label>
+      <p class="hint">Shown at the top of the post. Pick a photo from your computer or phone.</p>
+      <div class="cover-row">
+        <img
+          id="cover-preview"
+          src={initial.coverImage || undefined}
+          alt=""
+          style={initial.coverImage ? "" : "display:none;"}
+        />
+        <div class="cover-buttons">
+          <label class="button secondary cover-choose" for="cover">Choose a photo</label>
+          <button type="button" id="cover-remove" class="button danger" style={initial.coverImage ? "" : "display:none;"}>
+            Remove photo
+          </button>
+        </div>
+        <input type="file" id="cover" accept="image/*" style="display:none;" />
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="body">Your post</label>
+      <p class="hint">
+        Write like you'd write an email. Use the toolbar for headings, lists, links, and photos —
+        the eye button shows a preview.
+      </p>
+      <textarea id="body">{initial.body}</textarea>
+    </div>
+
+    <div class="publish-box">
+      <label class="publish-toggle">
+        <input type="checkbox" id="published" checked={!initial.draft} />
+        <span>
+          <strong>Show this post on the website</strong>
+          <span class="hint">Unchecked = private draft only you can see here.</span>
+        </span>
+      </label>
+    </div>
+
+    <div class="actions">
+      <button type="submit" class="button" id="save-button">
+        {isNew ? "Save My Post" : "Save Changes"}
+      </button>
+      <a href="/admin" class="button secondary">Cancel</a>
+      {!isNew ? (
+        <button type="button" class="button danger" id="delete-button" style="margin-left: auto;">
+          Delete this post
+        </button>
+      ) : null}
+    </div>
+    <p id="save-status" class="status" role="status" aria-live="polite"></p>
+  </form>
+</AdminLayout>
+
+<style>
+  .field {
+    margin-bottom: 1.4rem;
+  }
+  .field .hint {
+    margin: 0 0 0.45rem;
+  }
+  .hint-inline {
+    font-weight: 500;
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
+  }
+  @media (max-width: 600px) {
+    .field-row {
+      grid-template-columns: 1fr;
+    }
+  }
+  .cover-row {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    flex-wrap: wrap;
+  }
+  #cover-preview {
+    width: 180px;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 1.5px solid var(--line);
+  }
+  .cover-buttons {
+    display: flex;
+    gap: 0.7rem;
+    flex-wrap: wrap;
+  }
+  .cover-choose {
+    cursor: pointer;
+    font-size: 0.95rem;
+    padding: 0.6rem 1.2rem;
+  }
+  .publish-box {
+    background: var(--aqua-light);
+    border: 1.5px solid #c5e8ef;
+    border-radius: 14px;
+    padding: 1rem 1.2rem;
+    margin-bottom: 1.4rem;
+  }
+  .publish-toggle {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem;
+    margin: 0;
+    cursor: pointer;
+  }
+  .publish-toggle input {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-top: 0.15rem;
+    accent-color: var(--aqua);
+    flex: none;
+  }
+  .publish-toggle strong {
+    display: block;
+    color: var(--navy);
+  }
+  .actions {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+  }
+
+  /* EasyMDE tweaks to match the site */
+  :global(.EasyMDEContainer .CodeMirror) {
+    border-radius: 0 0 12px 12px;
+    border-color: var(--line);
+    font-size: 1.05rem;
+    line-height: 1.6;
+    min-height: 320px;
+  }
+  :global(.editor-toolbar) {
+    border-radius: 12px 12px 0 0;
+    border-color: var(--line);
+    background: var(--bg);
+  }
+  :global(.editor-preview) {
+    background: #fff;
+  }
+</style>
+
+<script>
+  import EasyMDE from "easymde";
+  import "easymde/dist/easymde.min.css";
+  import "@fortawesome/fontawesome-free/css/all.min.css";
+
+  const form = document.querySelector<HTMLFormElement>("#post-form")!;
+  const initial = JSON.parse(form.dataset.initial || "{}");
+  const statusEl = document.querySelector<HTMLElement>("#save-status")!;
+  const saveButton = document.querySelector<HTMLButtonElement>("#save-button")!;
+
+  const setStatus = (message: string, kind: "error" | "success" | "") => {
+    statusEl.textContent = message;
+    statusEl.className = `status ${kind}`;
+  };
+
+  /* ---------- image helpers ---------- */
+
+  const resizeImage = (file: File, maxWidth: number): Promise<{ base64: string; name: string }> =>
+    new Promise((resolve, reject) => {
+      const url = URL.createObjectURL(file);
+      const img = new Image();
+      img.onload = () => {
+        URL.revokeObjectURL(url);
+        const scale = Math.min(1, maxWidth / img.naturalWidth);
+        const canvas = document.createElement("canvas");
+        canvas.width = Math.round(img.naturalWidth * scale);
+        canvas.height = Math.round(img.naturalHeight * scale);
+        canvas.getContext("2d")!.drawImage(img, 0, 0, canvas.width, canvas.height);
+        const dataUrl = canvas.toDataURL("image/jpeg", 0.85);
+        resolve({
+          base64: dataUrl.split(",")[1],
+          name: file.name.replace(/\.[^.]+$/, "") + ".jpg",
+        });
+      };
+      img.onerror = () => {
+        URL.revokeObjectURL(url);
+        reject(new Error("That file doesn't look like a photo."));
+      };
+      img.src = url;
+    });
+
+  const uploadImage = async (kind: "covers" | "inline", file: File): Promise<string> => {
+    const { base64, name } = await resizeImage(file, kind === "covers" ? 1600 : 1200);
+    const response = await fetch("/api/admin/upload", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ kind, filename: name, data: base64 }),
+    });
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(result.error || "Upload failed.");
+    return result.path;
+  };
+
+  /* ---------- body editor ---------- */
+
+  const editor = new EasyMDE({
+    element: document.querySelector<HTMLTextAreaElement>("#body")!,
+    initialValue: initial.body || "",
+    spellChecker: false,
+    status: false,
+    autoDownloadFontAwesome: false,
+    placeholder: "Start writing here...",
+    toolbar: [
+      "bold",
+      "italic",
+      "heading-2",
+      "|",
+      "unordered-list",
+      "ordered-list",
+      "quote",
+      "|",
+      "link",
+      "upload-image",
+      "horizontal-rule",
+      "|",
+      "preview",
+      "undo",
+      "redo",
+    ],
+    uploadImage: true,
+    imageUploadFunction: (file, onSuccess, onError) => {
+      uploadImage("inline", file)
+        .then((path) => onSuccess(path))
+        .catch((error) => onError(String(error.message || error)));
+    },
+  });
+
+  /* ---------- cover photo ---------- */
+
+  const coverInput = document.querySelector<HTMLInputElement>("#cover")!;
+  const coverPreview = document.querySelector<HTMLImageElement>("#cover-preview")!;
+  const coverRemove = document.querySelector<HTMLButtonElement>("#cover-remove")!;
+  let coverFile: File | null = null;
+  let coverPath: string = initial.coverImage || "";
+
+  coverInput.addEventListener("change", () => {
+    const file = coverInput.files?.[0];
+    if (!file) return;
+    coverFile = file;
+    coverPreview.src = URL.createObjectURL(file);
+    coverPreview.style.display = "";
+    coverRemove.style.display = "";
+  });
+
+  coverRemove.addEventListener("click", () => {
+    coverFile = null;
+    coverPath = "";
+    coverInput.value = "";
+    coverPreview.style.display = "none";
+    coverRemove.style.display = "none";
+  });
+
+  /* ---------- excerpt counter ---------- */
+
+  const excerptField = document.querySelector<HTMLTextAreaElement>("#excerpt")!;
+  const excerptCount = document.querySelector<HTMLElement>("#excerpt-count")!;
+  const updateCount = () => {
+    const length = excerptField.value.trim().length;
+    excerptCount.textContent =
+      length < 30 ? `(needs ${30 - length} more characters)` : `(${length}/220 characters — good!)`;
+  };
+  excerptField.addEventListener("input", updateCount);
+  updateCount();
+
+  /* ---------- save ---------- */
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    setStatus("", "");
+
+    const title = (document.querySelector<HTMLInputElement>("#title")!.value || "").trim();
+    const publishDate = document.querySelector<HTMLInputElement>("#publishDate")!.value;
+    const excerpt = excerptField.value.trim();
+    const body = editor.value().trim();
+    const published = document.querySelector<HTMLInputElement>("#published")!.checked;
+    const tags = (document.querySelector<HTMLInputElement>("#tags")!.value || "")
+      .split(",")
+      .map((tag) => tag.trim())
+      .filter(Boolean);
+
+    if (title.length < 8) return setStatus("The title needs to be at least 8 characters.", "error");
+    if (!publishDate) return setStatus("Please pick a date.", "error");
+    if (excerpt.length < 30)
+      return setStatus("The short description needs at least 30 characters.", "error");
+    if (!body) return setStatus("The post needs some words in it first!", "error");
+
+    saveButton.disabled = true;
+    try {
+      if (coverFile) {
+        setStatus("Uploading your cover photo...", "");
+        coverPath = await uploadImage("covers", coverFile);
+        coverFile = null;
+      }
+
+      setStatus("Saving...", "");
+      const response = await fetch("/api/admin/save", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          isNew: initial.isNew,
+          slug: initial.slug,
+          title,
+          publishDate,
+          excerpt,
+          tags,
+          body,
+          draft: !published,
+          coverImage: coverPath || null,
+        }),
+      });
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(result.error || "Could not save.");
+
+      if (initial.isNew) {
+        window.location.href = `/admin/post?slug=${encodeURIComponent(result.slug)}&saved=1`;
+        return;
+      }
+      setStatus(
+        published
+          ? "Saved! Your post will be live on the website in about 2 minutes."
+          : "Saved as a private draft.",
+        "success"
+      );
+    } catch (error) {
+      setStatus(String((error as Error).message || error), "error");
+    } finally {
+      saveButton.disabled = false;
+    }
+  });
+
+  if (new URLSearchParams(window.location.search).get("saved") === "1") {
+    setStatus("Saved! If it's published, it'll be live on the website in about 2 minutes.", "success");
+    history.replaceState(null, "", window.location.pathname + "?slug=" + encodeURIComponent(initial.slug));
+  }
+
+  /* ---------- delete ---------- */
+
+  document.querySelector<HTMLButtonElement>("#delete-button")?.addEventListener("click", async () => {
+    const sure = confirm(
+      "Delete this post for good?\n\nIf you just want to hide it, press Cancel and uncheck \"Show this post on the website\" instead."
+    );
+    if (!sure) return;
+    try {
+      const response = await fetch("/api/admin/delete", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ slug: initial.slug }),
+      });
+      if (!response.ok) {
+        const result = await response.json().catch(() => ({}));
+        throw new Error(result.error || "Could not delete.");
+      }
+      window.location.href = "/admin";
+    } catch (error) {
+      setStatus(String((error as Error).message || error), "error");
+    }
+  });
+</script>

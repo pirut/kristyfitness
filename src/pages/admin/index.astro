@@ -1,0 +1,171 @@
+---
+import AdminLayout from "../../layouts/AdminLayout.astro";
+import { isAuthConfigured, isAuthenticated } from "../../lib/admin/auth";
+import { contentMode, listPosts, type PostSummary } from "../../lib/admin/content";
+
+export const prerender = false;
+
+const configured = isAuthConfigured();
+const authed = configured && isAuthenticated(Astro.cookies);
+const mode = contentMode();
+
+let posts: PostSummary[] = [];
+let loadError = "";
+if (authed) {
+  try {
+    posts = await listPosts();
+  } catch (error) {
+    console.error("Failed to list posts:", error);
+    loadError = "Couldn't load the post list right now. Refresh the page to try again.";
+  }
+}
+
+const formatDate = (value: string) =>
+  new Date(`${value}T12:00:00`).toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
+---
+
+<AdminLayout title={authed ? "Your posts" : "Sign in"}>
+  {authed ? <form slot="nav" method="POST" action="/api/admin/logout"><button type="submit">Sign out</button></form> : null}
+
+  {!configured ? (
+    <div class="card">
+      <h1>Almost ready</h1>
+      <p class="sub">
+        The blog editor needs two settings added in Vercel before it can be used:
+        <code>ADMIN_PASSWORD</code> (the password Kristy will type) and
+        <code>BLOG_GITHUB_TOKEN</code> (lets the editor save posts). See the README for details.
+      </p>
+    </div>
+  ) : !authed ? (
+    <div class="card" style="max-width: 26rem; margin: 3rem auto;">
+      <h1>Hi, Kristy!</h1>
+      <p class="sub">Type the blog password to start writing.</p>
+      <form id="login-form">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" autocomplete="current-password" autofocus />
+        <p id="login-status" class="status error" role="status" aria-live="polite"></p>
+        <button type="submit" class="button" style="width: 100%;">Open My Blog Editor</button>
+      </form>
+    </div>
+  ) : (
+    <>
+      <h1>Your posts</h1>
+      <p class="sub">Click a post to edit it, or start something new.</p>
+
+      {mode === "unconfigured" ? (
+        <p class="notice">
+          <strong>Heads up:</strong> saving is not configured yet (missing
+          <code>BLOG_GITHUB_TOKEN</code>), so changes can't be published right now.
+        </p>
+      ) : null}
+
+      <p style="margin: 0 0 1.6rem;">
+        <a href="/admin/post" class="button">✍️&ensp;Write a New Post</a>
+      </p>
+
+      {loadError ? <p class="notice">{loadError}</p> : null}
+
+      <div class="post-list">
+        {posts.map((post) => (
+          <a class="post-row" href={`/admin/post?slug=${encodeURIComponent(post.slug)}`}>
+            <span class="post-row-main">
+              <strong>{post.title}</strong>
+              <span class="post-row-date">{formatDate(post.publishDate)}</span>
+            </span>
+            <span class={`chip ${post.draft ? "chip-draft" : "chip-live"}`}>
+              {post.draft ? "Draft" : "Live"}
+            </span>
+          </a>
+        ))}
+        {!posts.length && !loadError ? (
+          <p class="sub">No posts yet — click "Write a New Post" to create your first one!</p>
+        ) : null}
+      </div>
+    </>
+  )}
+</AdminLayout>
+
+<style>
+  .post-list {
+    display: grid;
+    gap: 0.8rem;
+  }
+  .post-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 1rem 1.3rem;
+    text-decoration: none;
+    color: var(--ink);
+    box-shadow: 0 1px 2px rgba(16, 37, 70, 0.05);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .post-row:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(16, 37, 70, 0.1);
+  }
+  .post-row-main strong {
+    display: block;
+    color: var(--navy);
+    font-size: 1.08rem;
+  }
+  .post-row-date {
+    font-size: 0.88rem;
+    color: var(--muted);
+  }
+  .chip {
+    flex: none;
+    font-size: 0.82rem;
+    font-weight: 800;
+    padding: 0.3rem 0.85rem;
+    border-radius: 999px;
+  }
+  .chip-live {
+    background: var(--green-light);
+    color: var(--green);
+  }
+  .chip-draft {
+    background: #fdf3ec;
+    color: #b45a1e;
+  }
+</style>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>("#login-form");
+  const statusEl = document.querySelector<HTMLElement>("#login-status");
+
+  form?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const passwordField = form.querySelector<HTMLInputElement>("#password");
+    const button = form.querySelector<HTMLButtonElement>("button[type=submit]");
+    if (!passwordField || !button || !statusEl) return;
+
+    button.disabled = true;
+    statusEl.textContent = "";
+    try {
+      const response = await fetch("/api/admin/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password: passwordField.value }),
+      });
+      if (response.ok) {
+        window.location.reload();
+        return;
+      }
+      const result = await response.json().catch(() => ({}));
+      statusEl.textContent = result.error || "Something went wrong — try again.";
+    } catch {
+      statusEl.textContent = "Couldn't reach the server. Check your internet and try again.";
+    } finally {
+      button.disabled = false;
+    }
+  });
+</script>

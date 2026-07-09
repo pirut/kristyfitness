@@ -1,0 +1,258 @@
+---
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>{title} | Kristy Fitness Admin</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%2345bdd3'/%3E%3Cstop offset='1' stop-color='%230d6d80'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='48' height='48' rx='13' fill='url(%23g)'/%3E%3Cpath d='M24 8.5c5.7 6.9 9 11.9 9 16.3a9 9 0 1 1-18 0c0-4.4 3.3-9.4 9-16.3Z' fill='%23fff'/%3E%3Cpath d='M18.5 27.5c1.8-1.6 3.7-1.6 5.5 0s3.7 1.6 5.5 0' stroke='%2312839a' stroke-width='2.4' stroke-linecap='round' fill='none'/%3E%3C/svg%3E"
+    />
+    <style is:global>
+      @font-face {
+        font-family: "Archivo";
+        font-style: normal;
+        font-weight: 100 900;
+        font-display: swap;
+        src: url("/fonts/archivo-latin.woff2") format("woff2");
+      }
+      @font-face {
+        font-family: "Satisfy";
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url("/fonts/satisfy-latin.woff2") format("woff2");
+      }
+      :root {
+        --navy: #102546;
+        --navy-dark: #0b1c36;
+        --aqua: #12839a;
+        --aqua-bright: #45bdd3;
+        --aqua-light: #ecf7fa;
+        --green: #2e7d4f;
+        --green-light: #eef7f1;
+        --red: #c0392b;
+        --ink: #1c2b3f;
+        --muted: #51647c;
+        --line: #dde7ee;
+        --bg: #f5f9fb;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family: "Archivo", system-ui, sans-serif;
+        font-size: 17px;
+        line-height: 1.6;
+        color: var(--ink);
+        background: var(--bg);
+      }
+      .admin-topbar {
+        background: var(--navy-dark);
+        color: #fff;
+        padding: 0.85rem 0;
+      }
+      .admin-topbar .inner {
+        width: min(880px, calc(100% - 2.5rem));
+        margin-inline: auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+      .admin-brand {
+        display: flex;
+        align-items: center;
+        gap: 0.65rem;
+        color: #fff;
+        text-decoration: none;
+        font-weight: 900;
+        font-size: 1.15rem;
+      }
+      .admin-brand svg {
+        width: 36px;
+        height: 36px;
+      }
+      .admin-brand .script {
+        font-family: "Satisfy", cursive;
+        font-weight: 400;
+        font-size: 0.95rem;
+        color: var(--aqua-bright);
+        display: block;
+        line-height: 1;
+      }
+      .admin-topbar nav {
+        display: flex;
+        align-items: center;
+        gap: 1.1rem;
+      }
+      .admin-topbar nav a,
+      .admin-topbar nav button {
+        color: rgba(234, 244, 248, 0.85);
+        font: inherit;
+        font-weight: 600;
+        font-size: 0.95rem;
+        text-decoration: none;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+      }
+      .admin-topbar nav a:hover,
+      .admin-topbar nav button:hover {
+        color: #fff;
+        text-decoration: underline;
+      }
+      main.admin-main {
+        width: min(880px, calc(100% - 2.5rem));
+        margin: 2.2rem auto 4rem;
+      }
+      h1 {
+        font-size: 1.9rem;
+        font-weight: 900;
+        color: var(--navy);
+        margin: 0 0 0.4rem;
+        letter-spacing: -0.01em;
+      }
+      .sub {
+        color: var(--muted);
+        margin: 0 0 1.6rem;
+      }
+      .card {
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        padding: 1.6rem 1.8rem;
+        box-shadow: 0 2px 6px rgba(16, 37, 70, 0.06), 0 14px 34px rgba(16, 37, 70, 0.08);
+      }
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        font: inherit;
+        font-weight: 700;
+        font-size: 1.05rem;
+        padding: 0.85rem 1.6rem;
+        border-radius: 999px;
+        border: none;
+        cursor: pointer;
+        text-decoration: none;
+        background: linear-gradient(120deg, var(--aqua), #1e9fb8);
+        color: #fff;
+        box-shadow: 0 8px 22px rgba(18, 131, 154, 0.35);
+        transition: transform 0.15s ease;
+      }
+      .button:hover {
+        transform: translateY(-2px);
+      }
+      .button.secondary {
+        background: #fff;
+        color: var(--navy);
+        border: 2px solid var(--navy);
+        box-shadow: none;
+      }
+      .button.danger {
+        background: #fff;
+        color: var(--red);
+        border: 2px solid #e5b8b2;
+        box-shadow: none;
+        font-size: 0.95rem;
+        padding: 0.6rem 1.2rem;
+      }
+      .button:disabled {
+        opacity: 0.6;
+        cursor: wait;
+        transform: none;
+      }
+      label {
+        display: block;
+        font-weight: 700;
+        color: var(--navy);
+        margin-bottom: 0.35rem;
+      }
+      .hint {
+        font-weight: 500;
+        font-size: 0.88rem;
+        color: var(--muted);
+      }
+      input[type="text"],
+      input[type="password"],
+      input[type="date"],
+      textarea {
+        font: inherit;
+        width: 100%;
+        color: var(--ink);
+        background: var(--bg);
+        border: 1.5px solid var(--line);
+        border-radius: 12px;
+        padding: 0.8rem 1rem;
+      }
+      input:focus,
+      textarea:focus {
+        outline: none;
+        border-color: #1e9fb8;
+        box-shadow: 0 0 0 4px rgba(30, 159, 184, 0.15);
+      }
+      .status {
+        min-height: 1.5em;
+        font-weight: 700;
+        margin: 0.8rem 0 0;
+      }
+      .status.error {
+        color: var(--red);
+      }
+      .status.success {
+        color: var(--green);
+      }
+      .notice {
+        background: #fdf3ec;
+        border-left: 4px solid #d97a3d;
+        border-radius: 0 12px 12px 0;
+        padding: 0.9rem 1.2rem;
+        margin: 1rem 0;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="admin-topbar">
+      <div class="inner">
+        <a href="/admin" class="admin-brand">
+          <svg viewBox="0 0 48 48" aria-hidden="true">
+            <defs>
+              <linearGradient id="ag" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#45bdd3"></stop>
+                <stop offset="1" stop-color="#0d6d80"></stop>
+              </linearGradient>
+            </defs>
+            <rect width="48" height="48" rx="13" fill="url(#ag)"></rect>
+            <path d="M24 8.5c5.7 6.9 9 11.9 9 16.3a9 9 0 1 1-18 0c0-4.4 3.3-9.4 9-16.3Z" fill="#fff"></path>
+            <path d="M18.5 27.5c1.8-1.6 3.7-1.6 5.5 0s3.7 1.6 5.5 0" stroke="#12839a" stroke-width="2.4" stroke-linecap="round" fill="none"></path>
+          </svg>
+          <span>
+            Kristy Fitness
+            <span class="script">Blog Editor</span>
+          </span>
+        </a>
+        <nav>
+          <a href="/blog" target="_blank" rel="noopener">See the blog</a>
+          <slot name="nav" />
+        </nav>
+      </div>
+    </header>
+    <main class="admin-main">
+      <slot />
+    </main>
+  </body>
+</html>

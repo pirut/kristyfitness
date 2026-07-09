@@ -1,4 +1,4 @@
-export const SITE_URL = "https://www.kristyfitness.com";
+export const SITE_URL = "https://www.kingdomhealth.fitness";
 export const SITE_NAME = "Kristy Fitness";
 export const SITE_TAGLINE = "Join the Fit Life";
 export const OWNER_NAME = "Kristy Bussard, FNLP";

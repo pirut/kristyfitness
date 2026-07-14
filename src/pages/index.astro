@@ -94,7 +94,7 @@ const jsonLd = [
     <!-- ============ HERO ============ -->
     <section class="hero">
       <div class="wrap hero-inner">
-        <div class="hero-copy" data-reveal>
+        <div class="hero-copy">
           <p class="hero-kicker">Join the Fit Life</p>
           <h1>
             Move Better.<br />
@@ -122,51 +122,35 @@ const jsonLd = [
           </ul>
         </div>
 
-        <figure class="hero-pool" data-reveal>
-          <svg class="pool-art" viewBox="0 0 580 690" role="img" aria-label="An abstract view of calm swimming-pool lanes">
-            <defs>
-              <pattern id="pool-grid" width="40" height="40" patternUnits="userSpaceOnUse">
-                <path d="M40 0H0V40" fill="none" stroke="currentColor" stroke-opacity=".14" />
-              </pattern>
-              <linearGradient id="pool-wash" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0" stop-color="#a7e6e8" />
-                <stop offset="1" stop-color="#56b8c4" />
-              </linearGradient>
-            </defs>
-            <rect width="580" height="690" rx="12" fill="url(#pool-wash)" />
-            <rect width="580" height="690" rx="12" fill="url(#pool-grid)" />
-            <path d="M-20 148C109 98 212 213 352 154C461 108 509 124 620 186" fill="none" stroke="#f8fbf7" stroke-width="18" stroke-linecap="round" />
-            <path d="M-10 305C124 257 234 374 370 312C474 265 529 291 620 345" fill="none" stroke="#0b3850" stroke-opacity=".7" stroke-width="10" stroke-linecap="round" />
-            <path d="M-20 481C113 429 232 550 370 487C478 439 535 466 620 522" fill="none" stroke="#f8fbf7" stroke-width="18" stroke-linecap="round" />
-            <circle cx="98" cy="148" r="13" fill="#f0b75f" />
-            <circle cx="178" cy="148" r="13" fill="#f0b75f" />
-            <circle cx="258" cy="165" r="13" fill="#f0b75f" />
-            <circle cx="415" cy="147" r="13" fill="#f0b75f" />
-            <circle cx="489" cy="143" r="13" fill="#f0b75f" />
-            <circle cx="82" cy="482" r="13" fill="#e56f5d" />
-            <circle cx="163" cy="489" r="13" fill="#e56f5d" />
-            <circle cx="245" cy="500" r="13" fill="#e56f5d" />
-            <circle cx="403" cy="478" r="13" fill="#e56f5d" />
-            <circle cx="482" cy="477" r="13" fill="#e56f5d" />
-          </svg>
-          <div class="pool-caption">
-            <span>My Specialty!</span>
-            <strong>Water Training</strong>
-            <p>Low-impact, joint-friendly, full-body</p>
-          </div>
-          <figcaption>Join the Fit Life</figcaption>
-          <div class="hero-mini-services" aria-label="Additional services">
-            <p><strong>Nutrition Coaching</strong><span>Practical plans that fit your lifestyle</span></p>
-            <p><strong>1-on-1 Personal Training</strong><span>Strength, balance &amp; mobility</span></p>
-          </div>
-        </figure>
+        <div class="hero-visual">
+          <figure class="hero-photo">
+            <!-- Photo by Jonathan Borba on Unsplash. -->
+            <img
+              src="/assets/pool-lanes.jpg"
+              alt="Sunlight rippling across a quiet swimming pool lane"
+              width="1600"
+              height="1067"
+              fetchpriority="high"
+              decoding="async"
+            />
+            <figcaption>
+              <strong>Water Training</strong>
+              <span>Low-impact, joint-friendly, full-body</span>
+              <small>My Specialty!</small>
+            </figcaption>
+          </figure>
+          <ul class="hero-services" aria-label="Additional services">
+            <li><strong>Nutrition Coaching</strong><span>Practical plans that fit your lifestyle</span></li>
+            <li><strong>1-on-1 Personal Training</strong><span>Strength, balance &amp; mobility</span></li>
+          </ul>
+        </div>
       </div>
     </section>
 
     <!-- ============ APPROACH ============ -->
     <section id="about" class="section approach-section">
       <div class="wrap approach-grid">
-        <div class="approach-copy" data-reveal>
+        <div class="approach-copy">
           <p class="section-kicker">Your Goals. My Commitment.</p>
           <h2>A Safe, Personal Path to Feeling Your Best</h2>
           <p>
@@ -179,17 +163,14 @@ const jsonLd = [
             coaching that meets you exactly where you are today.
           </p>
         </div>
-        <ol class="approach-list" data-reveal>
+        <ol class="approach-list">
           <li>
-            <span>01</span>
             <div><h3>Safety</h3><p>Your safety is my top priority — every movement is chosen for your body and abilities.</p></div>
           </li>
           <li>
-            <span>02</span>
             <div><h3>Support</h3><p>Encouragement every step of the way, at a pace that feels right for you.</p></div>
           </li>
           <li>
-            <span>03</span>
             <div><h3>Results</h3><p>Real progress you can feel — more strength, better balance, more confidence. Real you.</p></div>
           </li>
         </ol>
@@ -199,14 +180,13 @@ const jsonLd = [
     <!-- ============ SERVICES ============ -->
     <section id="services" class="section services-editorial">
       <div class="wrap">
-        <div class="services-heading" data-reveal>
+        <div class="services-heading">
           <p class="section-kicker">Services Offered</p>
           <h2>Three Ways to Build a Stronger, Healthier You</h2>
           <p>Every program is individualized — we'll find the combination that fits your body, your schedule, and your goals.</p>
         </div>
 
-        <article class="water-service" data-reveal>
-          <div class="service-number">01</div>
+        <article class="water-service">
           <div class="water-service-copy">
             <p class="service-label">My Specialty</p>
             <h3>Water Training</h3>
@@ -218,12 +198,10 @@ const jsonLd = [
               <li>Great for beginners, seniors, injury recovery, arthritis, balance improvement, and overall fitness</li>
             </ul>
           </div>
-          <div class="water-rings" aria-hidden="true"><i></i><i></i><i></i></div>
         </article>
 
         <div class="service-lines">
-          <article class="service-line" data-reveal>
-            <span class="service-number">02</span>
+          <article class="service-line">
             <div>
               <h3>Nutrition Coaching</h3>
               <p class="service-specialty">Fuel that works for real life</p>
@@ -234,8 +212,7 @@ const jsonLd = [
               </ul>
             </div>
           </article>
-          <article class="service-line" data-reveal>
-            <span class="service-number">03</span>
+          <article class="service-line">
             <div>
               <h3>One-on-One Personal Training</h3>
               <p class="service-specialty">Your program, your pace</p>
@@ -257,7 +234,7 @@ const jsonLd = [
     <!-- ============ WHO CAN BENEFIT + PRICING ============ -->
     <section id="who" class="section fit-section">
       <div class="wrap fit-grid">
-        <div data-reveal>
+        <div>
           <p class="section-kicker">Is this for me?</p>
           <h2>Who Can Benefit</h2>
           <p class="fit-intro">If any of these sound like you, you're exactly who these programs were built for — and there's no fitness level required to start.</p>
@@ -271,7 +248,7 @@ const jsonLd = [
           </ul>
           <a href="#contact" class="button button-primary fit-button">Let's Talk About Your Goals</a>
         </div>
-        <aside id="pricing" class="start-note" data-reveal>
+        <aside id="pricing" class="start-note">
           <p class="start-note-script">Personalized Pricing</p>
           <h3>Every Person Is Unique — So Is Every Program</h3>
           <p>
@@ -279,7 +256,7 @@ const jsonLd = [
             goals, and circumstances. Your first step is a friendly, no-pressure
             consultation where we talk through what you're hoping to achieve.
           </p>
-          <a href="#contact" class="button button-primary">Schedule a Consultation</a>
+          <a href="#contact" class="button button-primary">Schedule Your Consultation</a>
         </aside>
       </div>
     </section>
@@ -287,14 +264,14 @@ const jsonLd = [
     <!-- ============ BLOG STRIP ============ -->
     <section class="section journal-section">
       <div class="wrap journal-layout">
-        <div class="journal-heading" data-reveal>
+        <div class="journal-heading">
           <p class="section-kicker">From the Blog</p>
           <h2>Tips &amp; Encouragement Between Sessions</h2>
           <p>Practical advice on moving well, eating well, and staying active — written by Kristy.</p>
           <a href="/blog" class="text-link">Visit the Blog <span aria-hidden="true">→</span></a>
         </div>
         {latestPosts.length ? (
-          <div class="journal-entries" data-reveal>
+          <div class="journal-entries">
             {latestPosts.map((post) => (
               <article class="journal-entry" aria-labelledby={`home-post-${post.slug}`}>
                 {post.coverImage ? (
@@ -331,7 +308,7 @@ const jsonLd = [
     <!-- ============ CONTACT ============ -->
     <section id="contact" class="contact-section">
       <div class="wrap contact-grid">
-        <div class="contact-intro" data-reveal>
+        <div class="contact-intro">
           <p class="section-kicker">Let's Get Started!</p>
           <h2>Schedule a Consultation</h2>
           <p>
@@ -370,7 +347,6 @@ const jsonLd = [
         <form
           id="contact-form"
           class="contact-form"
-          data-reveal
           action="https://formspree.io/f/meelknyk"
           method="POST"
           novalidate

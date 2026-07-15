@@ -95,10 +95,10 @@ const jsonLd = [
     <section class="hero">
       <div class="wrap hero-inner">
         <div class="hero-copy">
-          <span class="eyebrow-script">Join the Fit Life</span>
+          <p class="hero-kicker">Join the Fit Life</p>
           <h1>
             Move Better.<br />
-            <span class="alt">Feel Stronger.</span><br />
+            <span>Feel Stronger.</span><br />
             Live Healthier.
           </h1>
           <p class="hero-sub">
@@ -113,208 +113,117 @@ const jsonLd = [
               Schedule a Consultation
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
             </a>
-            <a href={`tel:${PHONE_TEL}`} class="button button-ghost">
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-              Call {PHONE_DISPLAY}
-            </a>
+            <a href={`tel:${PHONE_TEL}`} class="hero-phone">Call {PHONE_DISPLAY}</a>
           </div>
-          <ul class="hero-badges" aria-label="Credentials">
-            <li>
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
-              NASM Certified
-            </li>
-            <li>
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
-              FNLP &middot; Functional Nutrition Alliance
-            </li>
-            <li>
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
-              Safety-First Coaching
-            </li>
+          <ul class="hero-proof" aria-label="Credentials">
+            <li>NASM Certified</li>
+            <li>FNLP &middot; Functional Nutrition Alliance</li>
+            <li>Safety-First Coaching</li>
           </ul>
         </div>
 
-        <div class="hero-rail" aria-label="Services overview">
-          <a href="#services" class="hero-card hero-card-featured">
-            <span class="icon-chip chip-aqua">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3c4 4.9 6.5 8.4 6.5 11.5a6.5 6.5 0 1 1-13 0C5.5 11.4 8 7.9 12 3Z"/></svg>
-            </span>
-            <span class="hero-card-copy">
+        <div class="hero-visual">
+          <figure class="hero-photo">
+            <!-- Photo by Jonathan Borba on Unsplash. -->
+            <img
+              src="/assets/pool-lanes.jpg"
+              alt="Sunlight rippling across a quiet swimming pool lane"
+              width="1600"
+              height="1067"
+              fetchpriority="high"
+              decoding="async"
+            />
+            <figcaption>
               <strong>Water Training</strong>
               <span>Low-impact, joint-friendly, full-body</span>
-            </span>
-            <span class="badge-specialty">My Specialty!</span>
-          </a>
-          <a href="#services" class="hero-card">
-            <span class="icon-chip chip-green">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
-            </span>
-            <span class="hero-card-copy">
-              <strong>Nutrition Coaching</strong>
-              <span>Practical plans that fit your lifestyle</span>
-            </span>
-            <svg class="hero-card-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-          </a>
-          <a href="#services" class="hero-card">
-            <span class="icon-chip chip-navy">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.4 14.4 9.6 9.6"/><path d="M18.657 21.485a2 2 0 1 1-2.829-2.828l-1.767 1.768a2 2 0 1 1-2.829-2.829l6.364-6.364a2 2 0 1 1 2.829 2.829l-1.768 1.767a2 2 0 1 1 2.828 2.829z"/><path d="m21.5 21.5-1.4-1.4"/><path d="M3.9 3.9 2.5 2.5"/><path d="M6.404 12.768a2 2 0 1 1-2.829-2.829l1.768-1.767a2 2 0 1 1-2.828-2.829l2.828-2.828a2 2 0 1 1 2.829 2.828l1.767-1.768a2 2 0 1 1 2.829 2.829z"/></svg>
-            </span>
-            <span class="hero-card-copy">
-              <strong>1-on-1 Personal Training</strong>
-              <span>Strength, balance &amp; mobility</span>
-            </span>
-            <svg class="hero-card-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-          </a>
+              <small>My Specialty!</small>
+            </figcaption>
+          </figure>
+          <ul class="hero-services" aria-label="Additional services">
+            <li><strong>Nutrition Coaching</strong><span>Practical plans that fit your lifestyle</span></li>
+            <li><strong>1-on-1 Personal Training</strong><span>Strength, balance &amp; mobility</span></li>
+          </ul>
         </div>
-      </div>
-      <div class="wave" aria-hidden="true">
-        <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
-          <path
-            fill="rgba(245, 249, 251, 0.35)"
-            d="M0,52 C240,104 480,108 720,72 C960,38 1200,42 1440,84 L1440,120 L0,120 Z"
-          ></path>
-          <path
-            fill="#f5f9fb"
-            d="M0,72 C240,116 480,116 720,86 C960,58 1200,58 1440,94 L1440,120 L0,120 Z"
-          ></path>
-        </svg>
       </div>
     </section>
 
-    <!-- ============ COMMITMENT / VALUES ============ -->
-    <section id="about" class="section">
-      <div class="wrap commitment-grid">
-        <div class="commitment-copy">
-          <span class="eyebrow-script">Your Goals. My Commitment.</span>
+    <!-- ============ APPROACH ============ -->
+    <section id="about" class="section approach-section">
+      <div class="wrap approach-grid">
+        <div class="approach-copy">
+          <p class="section-kicker">Your Goals. My Commitment.</p>
           <h2>A Safe, Personal Path to Feeling Your Best</h2>
-          <p class="lead">
+          <p>
             Whether you're recovering from an injury, looking to improve your health, or
             simply want a safe and effective way to stay active, I provide personalized
             programs designed around your individual goals and abilities.
           </p>
-          <p class="lead">
+          <p>
             No intimidating gyms. No one-size-fits-all plans. Just steady, encouraging
             coaching that meets you exactly where you are today.
           </p>
         </div>
-        <div class="values">
-          <article class="value-card">
-            <span class="icon-chip chip-aqua">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg>
-            </span>
-            <div>
-              <h3>Safety</h3>
-              <p>Your safety is my top priority — every movement is chosen for your body and abilities.</p>
-            </div>
-          </article>
-          <article class="value-card">
-            <span class="icon-chip chip-green">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
-            </span>
-            <div>
-              <h3>Support</h3>
-              <p>Encouragement every step of the way, at a pace that feels right for you.</p>
-            </div>
-          </article>
-          <article class="value-card">
-            <span class="icon-chip chip-navy">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
-            </span>
-            <div>
-              <h3>Results</h3>
-              <p>Real progress you can feel — more strength, better balance, more confidence. Real you.</p>
-            </div>
-          </article>
-        </div>
+        <ol class="approach-list">
+          <li>
+            <div><h3>Safety</h3><p>Your safety is my top priority — every movement is chosen for your body and abilities.</p></div>
+          </li>
+          <li>
+            <div><h3>Support</h3><p>Encouragement every step of the way, at a pace that feels right for you.</p></div>
+          </li>
+          <li>
+            <div><h3>Results</h3><p>Real progress you can feel — more strength, better balance, more confidence. Real you.</p></div>
+          </li>
+        </ol>
       </div>
     </section>
 
     <!-- ============ SERVICES ============ -->
-    <section id="services" class="section section-tint">
+    <section id="services" class="section services-editorial">
       <div class="wrap">
-        <div class="section-head center">
-          <span class="eyebrow-script">Services Offered</span>
+        <div class="services-heading">
+          <p class="section-kicker">Services Offered</p>
           <h2>Three Ways to Build a Stronger, Healthier You</h2>
-          <p>
-            Every program is individualized — we'll find the combination that fits your
-            body, your schedule, and your goals.
-          </p>
+          <p>Every program is individualized — we'll find the combination that fits your body, your schedule, and your goals.</p>
         </div>
 
-        <div class="services-grid">
-          <article class="service-card service-featured">
-            <span class="service-flag">My Specialty</span>
-            <span class="icon-chip chip-aqua">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3c4 4.9 6.5 8.4 6.5 11.5a6.5 6.5 0 1 1-13 0C5.5 11.4 8 7.9 12 3Z"/></svg>
-            </span>
+        <article class="water-service">
+          <div class="water-service-copy">
+            <p class="service-label">My Specialty</p>
             <h3>Water Training</h3>
-            <p class="service-specialty">Gentle on joints, big on results</p>
+            <p class="service-lead">Gentle on joints, big on results</p>
             <ul>
-              <li>
-                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
-                Perfect for individuals who don't feel comfortable in a traditional gym
-              </li>
-              <li>
-                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
-                Low-impact exercise that's gentle on joints
-              </li>
-              <li>
-                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
-                Full-body workouts that strengthen every major muscle group
-              </li>
-              <li>
-                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
-                Great for beginners, seniors, injury recovery, arthritis, balance
-                improvement, and overall fitness
-              </li>
+              <li>Perfect for individuals who don't feel comfortable in a traditional gym</li>
+              <li>Low-impact exercise that's gentle on joints</li>
+              <li>Full-body workouts that strengthen every major muscle group</li>
+              <li>Great for beginners, seniors, injury recovery, arthritis, balance improvement, and overall fitness</li>
             </ul>
-          </article>
+          </div>
+        </article>
 
-          <article class="service-card">
-            <span class="icon-chip chip-green">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
-            </span>
-            <h3>Nutrition Coaching</h3>
-            <p class="service-specialty">Fuel that works for real life</p>
-            <ul>
-              <li>
-                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
-                Practical nutrition guidance for healthier living
-              </li>
-              <li>
-                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
-                Personalized plans that fit your lifestyle
-              </li>
-              <li>
-                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
-                Support for weight management, energy, and long-term wellness
-              </li>
-            </ul>
+        <div class="service-lines">
+          <article class="service-line">
+            <div>
+              <h3>Nutrition Coaching</h3>
+              <p class="service-specialty">Fuel that works for real life</p>
+              <ul>
+                <li>Practical nutrition guidance for healthier living</li>
+                <li>Personalized plans that fit your lifestyle</li>
+                <li>Support for weight management, energy, and long-term wellness</li>
+              </ul>
+            </div>
           </article>
-
-          <article class="service-card">
-            <span class="icon-chip chip-navy">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.4 14.4 9.6 9.6"/><path d="M18.657 21.485a2 2 0 1 1-2.829-2.828l-1.767 1.768a2 2 0 1 1-2.829-2.829l6.364-6.364a2 2 0 1 1 2.829 2.829l-1.768 1.767a2 2 0 1 1 2.828 2.829z"/><path d="m21.5 21.5-1.4-1.4"/><path d="M3.9 3.9 2.5 2.5"/><path d="M6.404 12.768a2 2 0 1 1-2.829-2.829l1.768-1.767a2 2 0 1 1-2.828-2.829l2.828-2.828a2 2 0 1 1 2.829 2.828l1.767-1.768a2 2 0 1 1 2.829 2.829z"/></svg>
-            </span>
-            <h3>One-on-One Personal Training</h3>
-            <p class="service-specialty">Your program, your pace</p>
-            <ul>
-              <li>
-                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
-                Individualized fitness programs
-              </li>
-              <li>
-                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
-                Strength, flexibility, balance, and mobility training
-              </li>
-              <li>
-                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
-                Sessions tailored to your fitness level and personal goals
-              </li>
-            </ul>
+          <article class="service-line">
+            <div>
+              <h3>One-on-One Personal Training</h3>
+              <p class="service-specialty">Your program, your pace</p>
+              <ul>
+                <li>Individualized fitness programs</li>
+                <li>Strength, flexibility, balance, and mobility training</li>
+                <li>Sessions tailored to your fitness level and personal goals</li>
+              </ul>
+            </div>
           </article>
         </div>
-
         <div class="services-tagline">
           <span class="script">Personalized. Effective. Sustainable.</span>
           <strong>You Are Worth It.</strong>
@@ -322,101 +231,69 @@ const jsonLd = [
       </div>
     </section>
 
-    <!-- ============ WHO CAN BENEFIT ============ -->
-    <section id="who" class="section">
-      <div class="wrap">
-        <div class="benefit">
-          <div class="benefit-copy">
-            <span class="eyebrow-script">Is this for me?</span>
-            <h2>Who Can Benefit</h2>
-            <p>
-              If any of these sound like you, you're exactly who these programs were
-              built for — and there's no fitness level required to start.
-            </p>
-            <a href="#contact" class="button button-primary">Let's Talk About Your Goals</a>
-          </div>
-          <ul class="benefit-list">
-            <li>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.801 10A10 10 0 1 1 17 3.335"/><path d="m9 11 3 3L22 4"/></svg>
-              Individuals recovering from injury or surgery
-            </li>
-            <li>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.801 10A10 10 0 1 1 17 3.335"/><path d="m9 11 3 3L22 4"/></svg>
-              Clients referred by physical therapists
-            </li>
-            <li>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.801 10A10 10 0 1 1 17 3.335"/><path d="m9 11 3 3L22 4"/></svg>
-              Older adults
-            </li>
-            <li>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.801 10A10 10 0 1 1 17 3.335"/><path d="m9 11 3 3L22 4"/></svg>
-              Beginners to exercise
-            </li>
-            <li>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.801 10A10 10 0 1 1 17 3.335"/><path d="m9 11 3 3L22 4"/></svg>
-              Anyone seeking a healthier lifestyle
-            </li>
-            <li>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.801 10A10 10 0 1 1 17 3.335"/><path d="m9 11 3 3L22 4"/></svg>
-              Anyone looking for a safe, supportive fitness experience
-            </li>
+    <!-- ============ WHO CAN BENEFIT + PRICING ============ -->
+    <section id="who" class="section fit-section">
+      <div class="wrap fit-grid">
+        <div>
+          <p class="section-kicker">Is this for me?</p>
+          <h2>Who Can Benefit</h2>
+          <p class="fit-intro">If any of these sound like you, you're exactly who these programs were built for — and there's no fitness level required to start.</p>
+          <ul class="fit-list">
+            <li>Individuals recovering from injury or surgery</li>
+            <li>Clients referred by physical therapists</li>
+            <li>Older adults</li>
+            <li>Beginners to exercise</li>
+            <li>Anyone seeking a healthier lifestyle</li>
+            <li>Anyone looking for a safe, supportive fitness experience</li>
           </ul>
+          <a href="#contact" class="button button-primary fit-button">Let's Talk About Your Goals</a>
         </div>
-      </div>
-    </section>
-
-    <!-- ============ PRICING ============ -->
-    <section id="pricing" class="section" style="padding-top: 0;">
-      <div class="wrap">
-        <div class="pricing-card">
-          <span class="eyebrow-script">Personalized Pricing</span>
-          <h2>Every Person Is Unique — So Is Every Program</h2>
+        <aside id="pricing" class="start-note">
+          <p class="start-note-script">Personalized Pricing</p>
+          <h3>Every Person Is Unique — So Is Every Program</h3>
           <p>
             <strong>Fees are discussed individually</strong> based on your specific needs,
             goals, and circumstances. Your first step is a friendly, no-pressure
             consultation where we talk through what you're hoping to achieve.
           </p>
-          <a href="#contact" class="button button-navy">Schedule Your Consultation</a>
-        </div>
+          <a href="#contact" class="button button-primary">Schedule Your Consultation</a>
+        </aside>
       </div>
     </section>
 
     <!-- ============ BLOG STRIP ============ -->
-    <section class="section section-tint">
-      <div class="wrap">
-        <div class="section-head center">
-          <span class="eyebrow-script">From the Blog</span>
+    <section class="section journal-section">
+      <div class="wrap journal-layout">
+        <div class="journal-heading">
+          <p class="section-kicker">From the Blog</p>
           <h2>Tips &amp; Encouragement Between Sessions</h2>
-          <p>
-            Practical advice on moving well, eating well, and staying active — written by
-            Kristy.
-          </p>
+          <p>Practical advice on moving well, eating well, and staying active — written by Kristy.</p>
+          <a href="/blog" class="text-link">Visit the Blog <span aria-hidden="true">→</span></a>
         </div>
         {latestPosts.length ? (
-          <div class="blog-grid">
+          <div class="journal-entries">
             {latestPosts.map((post) => (
-              <article class="blog-card" aria-labelledby={`home-post-${post.slug}`}>
+              <article class="journal-entry" aria-labelledby={`home-post-${post.slug}`}>
                 {post.coverImage ? (
-                  <a href={`/blog/${post.slug}`} class="blog-card-image">
+                  <a href={`/blog/${post.slug}`} class="journal-entry-image">
                     <img src={post.coverImage} alt={post.title} loading="lazy" decoding="async" />
                   </a>
                 ) : null}
-                <div class="blog-card-copy">
-                  <p class="blog-card-meta">
-                    <span>
-                      {new Date(post.publishDate).toLocaleDateString("en-US", {
-                        month: "long",
-                        day: "numeric",
-                        year: "numeric",
-                      })}
-                    </span>
-                    {post.tags?.length ? <span>{post.tags[0]}</span> : null}
-                  </p>
+                <div class="journal-entry-copy">
+                  <time datetime={post.publishDate}>
+                    {new Date(post.publishDate).toLocaleDateString("en-US", {
+                      month: "long",
+                      day: "numeric",
+                      year: "numeric",
+                    })}
+                  </time>
+                  {post.tags?.length ? <span class="journal-entry-tag">{post.tags[0]}</span> : null}
                   <h3 id={`home-post-${post.slug}`}>
                     <a href={`/blog/${post.slug}`}>{post.title}</a>
                   </h3>
                   <p>{post.excerpt}</p>
                 </div>
+                <a href={`/blog/${post.slug}`} class="journal-entry-arrow" aria-label={`Read ${post.title}`}>→</a>
               </article>
             ))}
           </div>
@@ -425,9 +302,6 @@ const jsonLd = [
             <p>The blog is ready to go — Kristy's first articles are coming soon!</p>
           </div>
         )}
-        <div class="strip-footer">
-          <a href="/blog" class="button button-outline">Visit the Blog</a>
-        </div>
       </div>
     </section>
 
@@ -435,7 +309,7 @@ const jsonLd = [
     <section id="contact" class="contact-section">
       <div class="wrap contact-grid">
         <div class="contact-intro">
-          <span class="eyebrow-script">Let's Get Started!</span>
+          <p class="section-kicker">Let's Get Started!</p>
           <h2>Schedule a Consultation</h2>
           <p>
             Discover a wellness program that's designed just for you. Reach out directly,
@@ -465,7 +339,7 @@ const jsonLd = [
               </a>
             </li>
           </ul>
-          <p style="margin-top: 2rem; font-family: var(--font-script); font-size: 1.35rem; color: var(--aqua-300);">
+          <p class="contact-mission">
             {MISSION}
           </p>
         </div>
